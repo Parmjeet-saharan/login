@@ -60,7 +60,7 @@ public class Home extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mAuth.signOut();
-                Intent intent = new Intent(Home.this,MainActivity.class);
+                Intent intent = new Intent(Home.this,ExamList.class);
                 startActivity(intent);
             }
         });
