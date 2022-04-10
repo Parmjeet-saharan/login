@@ -14,11 +14,11 @@ import java.util.ArrayList;
 
 public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.MyViewHolder> {
     private Context context;
-    private ArrayList personNames ;
+    private ArrayList exams  ;
 
-    public ExamAdapter(Context context, ArrayList personNames) {
+    public ExamAdapter(Context context, ArrayList exams) {
         this.context = context;
-        this.personNames = personNames;
+        this.exams = exams;
     }
 
     @NonNull
@@ -32,7 +32,7 @@ public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        String exam_name = (String) personNames.get(position);
+        String exam_name = (String) exams.get(position);
         holder.examName.setText(exam_name);
         // implement setOnClickListener event on item view.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -47,7 +47,7 @@ public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.MyViewHolder> 
 
     @Override
     public int getItemCount() {
-        return personNames.size();
+        return exams.size();
     }
 
 

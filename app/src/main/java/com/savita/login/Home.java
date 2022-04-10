@@ -31,14 +31,14 @@ public class Home extends AppCompatActivity {
 
         exam = (Button) findViewById(R.id.simpleButton1);
         id = (Button) findViewById(R.id.simpleButton2);
-        mAuth = FirebaseAuth.getInstance();
-        user = mAuth.getCurrentUser();
-        database = FirebaseDatabase.getInstance().getReference("Users");
-        userId = user.getUid();
+     //   mAuth = FirebaseAuth.getInstance();
+    //    user = mAuth.getCurrentUser();
+   //     database = FirebaseDatabase.getInstance().getReference("Users");
+      //  userId = user.getUid();
         id.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                database.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+               /* database.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         User userData = snapshot.getValue(User.class);
@@ -52,14 +52,14 @@ public class Home extends AppCompatActivity {
                         Toast.makeText(Home.this,"something went wrong ",Toast.LENGTH_LONG).show();
 
                     }
-                });
+                });*/
             }
         });
 
         exam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mAuth.signOut();
+               // mAuth.signOut();
                 Intent intent = new Intent(Home.this,ExamList.class);
                 startActivity(intent);
             }
@@ -70,10 +70,10 @@ public class Home extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser == null){
-           Intent intent = new Intent(Home.this,MainActivity.class);
-           startActivity(intent);
-        }
+  //      FirebaseUser currentUser = mAuth.getCurrentUser();
+   //     if(currentUser == null){
+   //        Intent intent = new Intent(Home.this,MainActivity.class);
+  //         startActivity(intent);
+   //     }
     }
 }
