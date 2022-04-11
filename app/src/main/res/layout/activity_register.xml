@@ -24,7 +24,7 @@
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
+        android:inputType="text"
         android:hint="Enter Name"
         android:textColor="#000"
         android:ems="10"

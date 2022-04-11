@@ -10,6 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Login">
         <activity
+            android:name=".CanUploadDocument"
+            android:exported="false" />
+        <activity
+            android:name=".UploadedDocument"
+            android:exported="false" />
+        <activity
+            android:name=".RequireDetail"
+            android:exported="false" />
+        <activity
+            android:name=".RequireDocument"
+            android:exported="false" />
+        <activity
             android:name=".ExamList"
             android:exported="false" />
         <activity
