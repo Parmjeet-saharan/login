@@ -1,6 +1,7 @@
 package com.savita.login;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,9 @@ public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.MyViewHolder> 
             @Override
             public void onClick(View view) {
                 // display a toast with person name on item click
-                Toast.makeText(context, exam_name, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context,RequireDetail.class);
+                intent.putExtra("examName",exam_name);
+                context.startActivity(intent);
             }
         });
 

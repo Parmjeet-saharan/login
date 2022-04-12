@@ -65,7 +65,8 @@ public class ExamList extends AppCompatActivity {
     public void listOfExam(String examString){
        String[] exams = examString.split("@",0);
        for(int i=0;i<exams.length;i++){
-           examsList.add(exams[i]);
+           String exam = exams[i].replaceAll("\\s", "");
+           examsList.add(exam);
   //         Toast.makeText(ExamList.this, String.valueOf(examsList.get(i)),
   //                 Toast.LENGTH_SHORT).show();
        }
