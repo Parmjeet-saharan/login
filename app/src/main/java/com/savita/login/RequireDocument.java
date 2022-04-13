@@ -2,18 +2,34 @@ package com.savita.login;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.documentfile.provider.DocumentFile;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 
@@ -23,9 +39,12 @@ import java.util.HashMap;
 public class RequireDocument extends AppCompatActivity {
   private TextView textView,textView1;
   private Button button;
-  private ProgressBar progressBar;
+  private EditText path;
+    Uri filePath;
+  public static final int PICK_IMAGE_REQUEST =22;
+    private static final String TAG = "RequireDocument";
+    private ProgressBar progressBar;
   private RecyclerView recyclerView;
-    private ArrayList detailList =new ArrayList();
     private ArrayList realList =new ArrayList();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,43 +55,60 @@ public class RequireDocument extends AppCompatActivity {
         button = (Button) findViewById(R.id.step2);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-    }
-    private void realList(){
-
-    }
-    private void arraylistOfDetails(Context context){
-        String exam_name;
-        Intent i = getIntent();
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RequireDocument.this,Payment.class);
+                startActivity(intent);
+            }
+        });
+        Intent i= getIntent();
         Bundle b = i.getExtras();
-        if(b!= null && b.containsKey("examName")) {
-            exam_name = b.getString("examName")+"document";
-            FirebaseRemoteConfig mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
-            FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
-                    .setMinimumFetchIntervalInSeconds(3600)
-                    .build();
-            mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
-            HashMap<String, String> defaultVlue = new HashMap<>();
-            defaultVlue.put(exam_name, "wait few second server down");
+        if(b!=null && b.containsKey("list")){
+            String exam_name = b.getString("examName");
+            exam_name = exam_name+"document";
+            realList = b.getStringArrayList("list");
+            String uid = "QBua2xNPO5QGXRb1Ic9zDsc6u6Y2";
+            DetailAdapter detailAdapter = new DetailAdapter(RequireDocument.this, realList,uid);
+            recyclerView.setAdapter(detailAdapter); // set the Adapter to RecyclerView
+            detailAdapter.setOnItemClick(new DetailAdapter.OnItemClick() {
+                @Override
+                public void getPosition(int data,EditText editText) {
+                    Intent intent = new Intent();
+                    intent.setType("image/*");
+                    path=editText;
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    startActivityForResult(
+                            Intent.createChooser(
+                                    intent,
+                                    "Select Image from here..."),
+                            PICK_IMAGE_REQUEST);
+                }
+            });
+        }
+        //  new MyAsyncTask().execute();
 
-            mFirebaseRemoteConfig.fetchAndActivate()
-                    .addOnCompleteListener(this, new OnCompleteListener<Boolean>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Boolean> task) {
-                            if (task.isSuccessful()) {
-                                boolean updated = task.getResult();
-                                String details = mFirebaseRemoteConfig.getString(exam_name);
-                                listOfDetail(details,context);
-                                //  Log.d(TAG, "Config params updated: " + updated);
-                                //   Toast.makeText(ExamList.this, examString,
-                                //          Toast.LENGTH_SHORT).show();
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null )
+        {
+            filePath = data.getData();
+            DocumentFile sourceFile = DocumentFile.fromSingleUri(RequireDocument.this, filePath);
+            boolean bool = sourceFile.exists();
+            Toast.makeText(RequireDocument.this, String.valueOf(bool)+"  exist",
+                    Toast.LENGTH_SHORT).show();
+            path.setText(String.valueOf(filePath));
 
-                            } else {
-                                Toast.makeText(RequireDetail.this, "Fetch failed",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
         }
     }
-
+    @Override
+    protected void onStart() {
+       //   arraylistOfDetails();
+        super.onStart();
+    }
 }

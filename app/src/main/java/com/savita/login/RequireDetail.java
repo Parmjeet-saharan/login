@@ -40,8 +40,11 @@ public class RequireDetail extends AppCompatActivity {
     private ArrayList realList =new ArrayList();
     private ArrayList textLlist = new ArrayList();
     private LinearLayout linearLayout;
+    private ArrayList documentList = new ArrayList();
+    private boolean isrun = true;
     private ProgressBar progressBar;
-
+    private String exam_name;
+    private String examKey;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,63 +60,52 @@ public class RequireDetail extends AppCompatActivity {
         step2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              //  checkAdhar();
-                for(int i=0 ;i<realList.size();i++){
-                   validate((EditText) textLlist.get(i));
+                //  checkAdhar();
+                if (validate(textLlist)) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    for (int i = 0; i < realList.size(); i++) {
+                        String key = (String) realList.get(i);
+                        EditText editText = (EditText) textLlist.get(i);
+                        String value = editText.getText().toString().trim();
+                        upDateData(key, value);
+                    }
+                    progressBar.setVisibility(View.GONE);
+                    Intent intent = new Intent(RequireDetail.this, RequireDocument.class);
+                    intent.putExtra("examName", exam_name);
+                    intent.putExtra("list",documentList);
+                    startActivity(intent);
                 }
-                progressBar.setVisibility(View.VISIBLE);
-                for(int i=0;i<realList.size();i++){
-                    String key = (String) realList.get(i);
-                    EditText editText = (EditText) textLlist.get(i);
-                    String value = editText.getText().toString().trim();
-                    upDateData(key,value);
-                }
-                progressBar.setVisibility(View.GONE);
-                Intent intent = new Intent(RequireDetail.this,RequireDocument.class);
-                startActivity(intent);
             }
         });
     }
-    public void checkAdhar(){
-      String uid = "QBua2xNPO5QGXRb1Ic9zDsc6u6Y2";
-       mDatabase.child(uid).child("address").addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if(snapshot.getValue()!=null) {
-                            String userData = snapshot.getValue().toString();
-                            Toast.makeText(RequireDetail.this,"hanuman ji "+userData,Toast.LENGTH_LONG).show();
-                        }else {
-                            HashMap<String, Object> map = new HashMap<>();
-                            String value = new String(uid);
-                            map.put("address",value);
-                            mDatabase.child("oSDBpGkTF3X24cJigFX04JYQ7YY2").updateChildren(map)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
+    @Override
+    protected void onStart() {
 
-                                        }
-                                    });
-                            Toast.makeText(RequireDetail.this,"update call ",Toast.LENGTH_LONG).show();
-
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(RequireDetail.this,"something went wrong ",Toast.LENGTH_LONG).show();
-
-                    }
-                });
+        Intent i= getIntent();
+        Bundle b = i.getExtras();
+        if(b!=null && b.containsKey("examName") && isrun) {
+            examKey = b.getString("examName");
+            examKey = exam_name +"document";
+            isrun = false;
+            querryData querry = new querryData();
+           querry.arraylistOfDetails(examKey,RequireDetail.this,documentList);
+    //        Thread t1 = new Thread(new Runnable() {
+     //           @Override
+    //            public void run() {
+   //             }
+   //         });
+    //        t1.start();
+        }
+        super.onStart();
     }
     private void arraylistOfDetails(Context context){
-        String exam_name;
         Intent i = getIntent();
         Bundle b = i.getExtras();
         if(b!= null && b.containsKey("examName")) {
              exam_name = b.getString("examName");
             FirebaseRemoteConfig mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
             FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
-                    .setMinimumFetchIntervalInSeconds(3600)
+                    .setMinimumFetchIntervalInSeconds(30)
                     .build();
             mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
             HashMap<String, String> defaultVlue = new HashMap<>();
@@ -151,17 +143,19 @@ public class RequireDetail extends AppCompatActivity {
             detailList.add("not available");
         }
     }
-    public void validate(EditText editText){
-        String value = editText.getText().toString().trim();
-        if(value.isEmpty()){
-            editText.setError("please enter correct value");
-            editText.requestFocus();
-            return;
+    public boolean validate(ArrayList<EditText> editText){
+        for(int i=0;i<editText.size();i++) {
+            String value = editText.get(i).getText().toString().trim();
+            if (value.isEmpty()) {
+                editText.get(i).setError("please enter correct value");
+                editText.get(i).requestFocus();
+                return false;
+            }
         }
+        return true;
     }
 
     public void upDateData(String key,String value){
-
         String uid = "QBua2xNPO5QGXRb1Ic9zDsc6u6Y2";
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Users");
         mDatabase.child(uid).child(key).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -212,7 +206,7 @@ public class RequireDetail extends AppCompatActivity {
                     editText.setId(Integer.valueOf(i));
                     linearLayout.addView(editText);
                     textLlist.add(editText);
-                    Toast.makeText(RequireDetail.this,key+" is new data",Toast.LENGTH_LONG).show();
+              //      Toast.makeText(RequireDetail.this,key+" is new data",Toast.LENGTH_LONG).show();
                 }
             }
 
