@@ -86,14 +86,21 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.MyViewHold
                    Toast.makeText(context, bool + " is here", Toast.LENGTH_LONG).show();
                    holder.progressBar.setVisibility(View.VISIBLE);
                    uploadImage.uploadImage(uri,uid,require_detail,context);
-                       holder.progressBar.setVisibility(View.GONE);
-                       if(true){
-                           holder.dStatus.setHint("successfully upload");
-                           holder.dStatus.setVisibility(View.VISIBLE);
-                       }else {
-                           holder.dStatus.setHint("something went wrong ! try later");
-                           holder.dStatus.setVisibility(View.VISIBLE);
+                   uploadImage.setCallBackForUploadImage(new CallBack() {
+                       @Override
+                       public String setStringData(String data) {
+                           holder.progressBar.setVisibility(View.GONE);
+                           if(data=="true"){
+                               holder.dStatus.setHint("successfully upload");
+                               holder.dStatus.setVisibility(View.VISIBLE);
+                           }else{
+                               holder.dStatus.setHint("something went wrong ! try later");
+                               holder.dStatus.setVisibility(View.VISIBLE);
+                           }
+                           return null;
                        }
+                   });
+                       holder.progressBar.setVisibility(View.GONE);
 
                }
            });

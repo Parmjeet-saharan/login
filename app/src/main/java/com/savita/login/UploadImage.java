@@ -19,8 +19,11 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 public class UploadImage {
-    boolean result = false;
-    public boolean uploadImage(Uri file, String uid, String filenmae, Context context){
+    CallBack ncallBack;
+    public void setCallBackForUploadImage(CallBack callBack){
+        this.ncallBack = callBack;
+    }
+    public void uploadImage(Uri file, String uid, String filenmae, Context context){
   //      final ProgressDialog progressDialog = new ProgressDialog(context);
       //  progressDialog.setTitle("Uploading...");
     //    progressDialog.show();
@@ -42,6 +45,18 @@ public class UploadImage {
                        Toast.makeText(context,"get uri ",Toast.LENGTH_LONG).show();
                        SaveDataInFirebase saveDataInFirebase = new SaveDataInFirebase();
                        saveDataInFirebase.saveData(uid,filenmae,String.valueOf(uri),context);
+                       saveDataInFirebase.setCallBack(new CallBack() {
+                           @Override
+                           public String setStringData(String data) {
+                               if(data=="true") {
+                                   ncallBack.setStringData("true");
+                                   return "true";
+                               }else{
+                                   ncallBack.setStringData("false");
+                                   return "false";
+                               }
+                           }
+                       });
                    }
                });
             }
@@ -53,6 +68,7 @@ public class UploadImage {
              public void onFailure(@NonNull Exception e) {
                  Toast.makeText(context,"fail"+e.getMessage(),Toast.LENGTH_LONG).show();
      //            progressDialog.dismiss();
+                 ncallBack.setStringData("false");
              }
          })
           .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -63,6 +79,5 @@ public class UploadImage {
    //               progressDialog.setMessage("Uploaded "+(int)progress+"%");
               }
           }) ;
-      return result;
     }
 }

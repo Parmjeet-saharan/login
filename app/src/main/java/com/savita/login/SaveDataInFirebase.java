@@ -16,6 +16,11 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 
 public class SaveDataInFirebase {
+    CallBack callBack;
+    public void setCallBack(CallBack callBack){
+        this.callBack = callBack;
+    }
+
     public void saveData(String uid, String key, String value, Context context){
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Users");
         mDatabase.child(uid).child(key).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -33,8 +38,10 @@ public class SaveDataInFirebase {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
                                         Toast.makeText(context,"update done ",Toast.LENGTH_LONG).show();
+                                         callBack.setStringData("true");
                                     }else{
                                         Toast.makeText(context,"update fail ",Toast.LENGTH_LONG).show();
+                                        callBack.setStringData("false");
                                     }
                                 }
                             });
@@ -46,7 +53,7 @@ public class SaveDataInFirebase {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(context,"something went wrong ",Toast.LENGTH_LONG).show();
-
+                callBack.setStringData("false");
             }
         });
     }
