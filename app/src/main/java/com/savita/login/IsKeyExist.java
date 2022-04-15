@@ -27,6 +27,9 @@ public class IsKeyExist {
                         //  Log.d(TAG, realList.get(j) +"#############" );
                         //           Toast.makeText(context, key + " is new data", Toast.LENGTH_LONG).show();
 
+                    }else{
+                        String value = snapshot.getValue().toString().trim();
+                        callBack.setStringData(value);
                     }
                 }
 

@@ -33,6 +33,9 @@ public class ExamList extends AppCompatActivity {
         recyclerView =(RecyclerView) findViewById(R.id.recyclerView);
         backButton = (Button) findViewById(R.id.back);
         setExamList();
+        FetchData fetchData = new FetchData();
+        String uid = "QBua2xNPO5QGXRb1Ic9zDsc6u6Y2";
+        fetchData.fetchAllData("Users",uid);
     }
     public void setExamList(){
         FirebaseRemoteConfig mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
