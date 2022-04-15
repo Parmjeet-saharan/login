@@ -44,6 +44,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
+                android:visibility="gone"
                 android:textColor="#000"
                 android:textSize="25dp"
                 android:hint="df"/>
@@ -70,6 +71,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
+                android:visibility="gone"
                 android:textColor="#000"
                 android:textSize="25dp"
                 android:hint="df"/>
@@ -96,6 +98,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
+                android:visibility="gone"
                 android:textColor="#000"
                 android:textSize="25dp"
                 android:hint="df"/>
