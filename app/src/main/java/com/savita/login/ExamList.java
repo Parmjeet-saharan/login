@@ -23,7 +23,7 @@ import java.util.Map;
 
 public class ExamList extends AppCompatActivity {
      private RecyclerView recyclerView;
-    String examString;
+    String examString,path;
      private Button backButton;
      ArrayList examsList =new ArrayList();
     @Override
@@ -33,9 +33,9 @@ public class ExamList extends AppCompatActivity {
         recyclerView =(RecyclerView) findViewById(R.id.recyclerView);
         backButton = (Button) findViewById(R.id.back);
         setExamList();
-        FetchData fetchData = new FetchData();
+   //     FetchData fetchData = new FetchData();
         String uid = "QBua2xNPO5QGXRb1Ic9zDsc6u6Y2";
-        fetchData.fetchAllData("Users",uid);
+    //    fetchData.fetchAllData("Users",uid,path);
     }
     public void setExamList(){
         FirebaseRemoteConfig mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();

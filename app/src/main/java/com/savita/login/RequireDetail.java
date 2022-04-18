@@ -26,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
+import com.savita.firebase.querryData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,7 +34,8 @@ import java.util.Map;
 
 public class RequireDetail extends AppCompatActivity {
     private TextView textView;
-    private Button step2;
+    private Button step2,check;
+    private EditText adharEdit;
     private DatabaseReference mDatabase;
     private RecyclerView recyclerView;
     private ArrayList detailList =new ArrayList();
@@ -49,14 +51,27 @@ public class RequireDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_require_detail);
-
+        adharEdit = (EditText) findViewById(R.id.addharId);
         textView = (TextView) findViewById(R.id.textView);
         step2 = (Button) findViewById(R.id.step2);
+        check = (Button) findViewById(R.id.check);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mDatabase = FirebaseDatabase.getInstance().getReference("Users");
         linearLayout = (LinearLayout) findViewById(R.id.dyanmic);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-             arraylistOfDetails(RequireDetail.this);
+             String addhar = adharEdit.getText().toString().trim();
+         check.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+
+                 if (addhar.isEmpty()) {
+                     adharEdit.setError("please enter correct value");
+                     adharEdit.requestFocus();
+                 }else {
+                     arraylistOfDetails(RequireDetail.this);
+                 }
+             }
+         });
         step2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -1,4 +1,4 @@
-package com.savita.login;
+package com.savita.firebase;
 
 import android.content.Context;
 import android.widget.Toast;
@@ -12,17 +12,18 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.savita.login.CallBack;
 
 import java.util.HashMap;
 
-public class SaveDataInFirebase {
+public class UpdateData {
     CallBack callBack;
     public void setCallBack(CallBack callBack){
         this.callBack = callBack;
     }
 
-    public void saveData(String uid, String key, String value, Context context){
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Users");
+    public void saveData(String uid, String key, String value, Context context,String root){
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference(root);
         mDatabase.child(uid).child(key).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
