@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,6 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Login">
+        <activity
+            android:name="com.savita.navigate.Navigationactivity"
+            android:exported="false"
+            android:label="@string/title_activity_navigationactivity"
+            android:theme="@style/Theme.Login.NoActionBar" />
         <activity
             android:name=".Payment"
             android:exported="false" />
@@ -31,17 +37,18 @@
             android:name=".ExamList"
             android:exported="false" />
         <activity
-            android:name=".ResetPassword"
+            android:name="com.savita.signin.ResetPassword"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.savita.signin.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".Register"
+            android:name="com.savita.signin.Register"
             android:exported="false" />
         <activity
             android:name=".Home"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.Login.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

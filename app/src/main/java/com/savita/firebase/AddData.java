@@ -11,10 +11,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
-import com.savita.login.User;
+import com.savita.signin.User;
 
 public class AddData {
-    public void addUser(String remail, String rpassword, Context context ,User user){
+    public void addUser(String remail, String rpassword, Context context , User user){
          FirebaseAuth auth;
          auth = FirebaseAuth.getInstance();
         auth.createUserWithEmailAndPassword(remail,rpassword)

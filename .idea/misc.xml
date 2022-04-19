@@ -7,16 +7,21 @@
         <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/activity_exam_list.xml" value="0.1" />
         <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/activity_home.xml" value="0.17074275362318841" />
         <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/activity_main.xml" value="0.17074275362318841" />
+        <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/activity_navigation.xml" value="0.15416666666666667" />
         <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/activity_payment.xml" value="0.2006340579710145" />
         <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/activity_register.xml" value="0.17074275362318841" />
         <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/activity_require_detail.xml" value="0.15833333333333333" />
         <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/activity_require_document.xml" value="0.1" />
         <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/activity_reset_password.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/activity_uploaded_document.xml" value="0.15833333333333333" />
+        <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/app_bar_navigationactivity.xml" value="0.15416666666666667" />
         <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/can_upload_list.xml" value="0.15833333333333333" />
+        <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/content_navigationactivity.xml" value="0.12708333333333333" />
         <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/content_scrolling.xml" value="0.1" />
         <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/document_list.xml" value="0.1" />
         <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/exam.xml" value="0.1" />
+        <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/fragment_home.xml" value="0.15416666666666667" />
+        <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/home.xml" value="0.15416666666666667" />
         <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/requie_details.xml" value="0.15833333333333333" />
         <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/text_llist.xml" value="0.1" />
         <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/uploaded_list.xml" value="0.15833333333333333" />

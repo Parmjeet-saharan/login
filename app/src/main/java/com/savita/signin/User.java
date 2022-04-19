@@ -1,4 +1,4 @@
-package com.savita.login;
+package com.savita.signin;
 
 public class User {
     String name;

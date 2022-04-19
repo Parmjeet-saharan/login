@@ -13,9 +13,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.savita.login.Home;
-import com.savita.login.MainActivity;
-import com.savita.login.ResetPassword;
-
 public class Login {
     public void signIn(String remail , String rpassword , Context context){
         FirebaseAuth mAuth= FirebaseAuth.getInstance();
@@ -48,5 +45,9 @@ public class Login {
                 }
             }
         });
+    }
+    public void logOut(){
+        FirebaseAuth mAuth= FirebaseAuth.getInstance();
+           mAuth.signOut();
     }
 }
