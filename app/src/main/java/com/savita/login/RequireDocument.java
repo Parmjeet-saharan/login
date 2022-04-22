@@ -36,7 +36,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class RequireDocument extends AppCompatActivity {
+public class  RequireDocument extends AppCompatActivity {
   private TextView textView,textView1;
   private Button button;
   private EditText path;

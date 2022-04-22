@@ -14,6 +14,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Login">
         <activity
+            android:name="com.savita.navigate.UploadedDetails"
+            android:exported="false" />
+        <activity
+            android:name="com.savita.navigate.StatusOfApplication"
+            android:exported="false" />
+        <activity
+            android:name="com.savita.navigate.UserSelect"
+            android:exported="false" />
+        <activity
             android:name="com.savita.navigate.Navigationactivity"
             android:exported="false"
             android:label="@string/title_activity_navigationactivity"
@@ -22,10 +31,10 @@
             android:name=".Payment"
             android:exported="false" />
         <activity
-            android:name=".CanUploadDocument"
+            android:name="com.savita.navigate.CanUploadDocument"
             android:exported="false" />
         <activity
-            android:name=".UploadedDocument"
+            android:name="com.savita.navigate.UploadedDocument"
             android:exported="false" />
         <activity
             android:name=".RequireDetail"

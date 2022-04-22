@@ -32,6 +32,7 @@ public class Home extends AppCompatActivity {
     private Button exam,id;
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityNavigationBinding binding;
+    private int noOfUsers = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +64,17 @@ public class Home extends AppCompatActivity {
         NavigationView navigationView = binding.navView;
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
-                .setOpenableLayout(drawer)
-                .build();
+        if(noOfUsers>1){
+            mAppBarConfiguration = new AppBarConfiguration.Builder(
+                    R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,R.id.nav1)
+                    .setOpenableLayout(drawer)
+                    .build();
+        }else {
+            mAppBarConfiguration = new AppBarConfiguration.Builder(
+                    R.id.nav_home, R.id.nav1, R.id.nav_slideshow)
+                    .setOpenableLayout(drawer)
+                    .build();
+        }
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_navigationactivity);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);

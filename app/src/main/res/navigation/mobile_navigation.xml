@@ -10,16 +10,29 @@
         android:name="com.savita.navigate.ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
-
-    <fragment
+    <activity
         android:id="@+id/nav_gallery"
-        android:name="com.savita.navigate.ui.gallery.GalleryFragment"
+        android:name="com.savita.navigate.CanUploadDocument"
         android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
-
-    <fragment
+        tools:layout="@layout/activity_user_select" />
+    <activity
         android:id="@+id/nav_slideshow"
-        android:name="com.savita.navigate.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:name="com.savita.navigate.CanUploadDocument"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/activity_can_upload_document" />
+    <activity
+        android:id="@+id/nav1"
+        android:name="com.savita.navigate.UploadedDocument"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/activity_uploaded_document" />
+    <activity
+        android:id="@+id/nav2"
+        android:name="com.savita.navigate.StatusOfApplication"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/activity_status_of_application" />
+    <activity
+        android:id="@+id/nav3"
+        android:name="com.savita.navigate.UploadedDetails"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/activity_uploaded_details" />
 </navigation>

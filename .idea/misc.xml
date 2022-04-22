@@ -13,7 +13,10 @@
         <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/activity_require_detail.xml" value="0.15833333333333333" />
         <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/activity_require_document.xml" value="0.1" />
         <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/activity_reset_password.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/activity_start_user.xml" value="0.16770833333333332" />
+        <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/activity_status_of_application.xml" value="0.1578125" />
         <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/activity_uploaded_document.xml" value="0.15833333333333333" />
+        <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/activity_user_select.xml" value="0.16770833333333332" />
         <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/app_bar_navigationactivity.xml" value="0.15416666666666667" />
         <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/can_upload_list.xml" value="0.15833333333333333" />
         <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/content_navigationactivity.xml" value="0.12708333333333333" />
@@ -22,9 +25,16 @@
         <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/exam.xml" value="0.1" />
         <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/fragment_home.xml" value="0.15416666666666667" />
         <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/home.xml" value="0.15416666666666667" />
+        <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/nav_header_navigationactivity.xml" value="0.16770833333333332" />
         <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/requie_details.xml" value="0.15833333333333333" />
+        <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/select_user.xml" value="0.16770833333333332" />
+        <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/single_document.xml" value="0.14635416666666667" />
         <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/text_llist.xml" value="0.1" />
         <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/uploaded_list.xml" value="0.15833333333333333" />
+        <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/layout/user_select.xml" value="0.1578125" />
+        <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/menu/activity_navigation_drawer.xml" value="0.16770833333333332" />
+        <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/menu/menu_exam_list.xml" value="0.16770833333333332" />
+        <entry key="..\:/Users/bcc/AndroidStudioProjects/login/app/src/main/res/menu/navigationactivity.xml" value="0.16770833333333332" />
       </map>
     </option>
   </component>
