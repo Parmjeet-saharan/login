@@ -67,7 +67,7 @@ public class CanUploadDocument extends AppCompatActivity {
                 }else {
                     RadioButton radioButton = (RadioButton)radioGroup.findViewById(selectedId);
                     st=radioButton.getText().toString().trim();
-                    linearLayout.setVisibility(View.GONE);
+                     linearLayout.setVisibility(View.GONE);
                     linearLayout1.setVisibility(View.VISIBLE);
                     String uid = "QBua2xNPO5QGXRb1Ic9zDsc6u6Y2";
                     DetailAdapter detailAdapter = new DetailAdapter(CanUploadDocument.this, realList,uid);

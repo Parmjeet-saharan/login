@@ -20,9 +20,6 @@
             android:name="com.savita.navigate.StatusOfApplication"
             android:exported="false" />
         <activity
-            android:name="com.savita.navigate.UserSelect"
-            android:exported="false" />
-        <activity
             android:name="com.savita.navigate.Navigationactivity"
             android:exported="false"
             android:label="@string/title_activity_navigationactivity"
