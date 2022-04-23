@@ -5,9 +5,16 @@
     android:clipToPadding="false"
     android:clipChildren="false"
     android:orientation="vertical">
+    <TextView
+        android:id="@+id/id_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:padding="2dp" />
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="250dp"
+        android:id="@+id/imageView"
         android:contentDescription="/my_image_description"/>
     <LinearLayout
         android:layout_width="match_parent"
