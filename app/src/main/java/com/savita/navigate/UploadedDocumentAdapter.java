@@ -2,12 +2,12 @@ package com.savita.navigate;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -17,27 +17,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.savita.login.DetailAdapter;
 import com.savita.login.R;
+import com.savita.simplefunction.SomeFunction;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class UploadedDocumentAdapter extends RecyclerView.Adapter<UploadedDocumentAdapter.MyViewHolder> {
     private Context context;
-    private ArrayList details;
+    public ArrayList<HashMap<String,String>> totalList;
+    public ArrayList totalKey;
+    public SomeFunction.dataReturn details = new SomeFunction.dataReturn(totalList,totalKey);
     private String uid;
-    DetailAdapter.OnItemClick onItemClick;
-
-    public void setOnItemClick(DetailAdapter.OnItemClick onItemClick) {
-        this.onItemClick = onItemClick;
-    }
-
-    public interface OnItemClick {
-        void getPosition(int data, EditText editText); //pass any things
-
-    }
-
-    private static final int PICK_IMAGE_REQUEST = 22;
-
-    public UploadedDocumentAdapter(Context context, ArrayList details, String uid) {
+    public UploadedDocumentAdapter(Context context, SomeFunction.dataReturn details, String uid) {
         this.context = context;
         this.details = details;
         this.uid = uid;
@@ -54,8 +46,11 @@ public class UploadedDocumentAdapter extends RecyclerView.Adapter<UploadedDocume
 
     @Override
     public void onBindViewHolder(@NonNull UploadedDocumentAdapter.MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        String require_detail = (String) details.get(position);
+        String require_detail = (String) details.totalKey.get(position);
         //   Toast.makeText(context, require_detail + " is here", Toast.LENGTH_LONG).show();
+        holder.textView.setHint(require_detail);
+        String link = details.totalList.get(position).get(require_detail);
+        Picasso.get().load(link).into(holder.imageView);
         holder.remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,7 +79,7 @@ public class UploadedDocumentAdapter extends RecyclerView.Adapter<UploadedDocume
 
     @Override
     public int getItemCount() {
-        return details.size();
+        return details.totalKey.size();
     }
 
 

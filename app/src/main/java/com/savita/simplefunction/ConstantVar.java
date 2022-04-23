@@ -1,4 +1,4 @@
-package com.savita.login;
+package com.savita.simplefunction;
 
 public class ConstantVar {
     public static final String userRootPath = "Users";

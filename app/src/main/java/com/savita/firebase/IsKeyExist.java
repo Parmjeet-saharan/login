@@ -1,6 +1,7 @@
 package com.savita.firebase;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -10,26 +11,27 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.savita.login.CallBack;
+import com.savita.simplefunction.CallBack;
 
 public class IsKeyExist {
     CallBack callBack;
-    public void setCallBack(CallBack callBack){
+    public void setCallBackForIsKeyExist(CallBack callBack){
         this.callBack = callBack;
     }
-    public void isexist(String key, String rootRef, Context context,String uid){
+    public void isexist(String path, String rootRef, Context context){
   //      String uid = "QBua2xNPO5QGXRb1Ic9zDsc6u6Y2";
             DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference(rootRef);
-            mDatabase.child(uid).child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+            mDatabase.child(path).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.getValue() == null) {
                           callBack.setStringData("false");
-                        //  Log.d(TAG, realList.get(j) +"#############" );
+                          Log.d("iskeyexist", "null"+"#############" );
                         //           Toast.makeText(context, key + " is new data", Toast.LENGTH_LONG).show();
 
                     }else{
                         String value = snapshot.getValue().toString().trim();
+                        Log.d("iskeyexist", value);
                         callBack.setStringData(value);
                     }
                 }

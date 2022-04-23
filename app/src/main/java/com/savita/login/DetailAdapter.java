@@ -18,6 +18,7 @@ import androidx.documentfile.provider.DocumentFile;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.savita.firebase.FirebaseImage;
+import com.savita.simplefunction.CallBack;
 
 import java.util.ArrayList;
 
@@ -75,7 +76,7 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.MyViewHold
                    Toast.makeText(context, bool + " is here", Toast.LENGTH_LONG).show();
                    holder.progressBar.setVisibility(View.VISIBLE);
                    firebaseImage.uploadImage(uri,uid,require_detail,context);
-                   firebaseImage.setCallBackForUploadImage(new com.savita.login.CallBack() {
+                   firebaseImage.setCallBackForUploadImage(new CallBack() {
                        @Override
                        public String setStringData(String data) {
                            holder.progressBar.setVisibility(View.GONE);
