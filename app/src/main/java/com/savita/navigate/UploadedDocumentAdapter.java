@@ -3,6 +3,7 @@ package com.savita.navigate;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,7 @@ public class UploadedDocumentAdapter extends RecyclerView.Adapter<UploadedDocume
         //   Toast.makeText(context, require_detail + " is here", Toast.LENGTH_LONG).show();
         holder.textView.setHint(require_detail);
         String link = details.totalList.get(position).get(require_detail);
+        Log.d("uploaded adapter #####", "onBindViewHolder: "+link);
         Picasso.get().load(link).into(holder.imageView);
         holder.remove.setOnClickListener(new View.OnClickListener() {
             @Override

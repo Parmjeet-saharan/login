@@ -27,7 +27,7 @@ public class SomeFunction {
         str = stringBuilder.toString();
         String[] strings = str.split(",");
         for(int i=0;i<strings.length;i++){
-            String[] strs = strings[i].split("=");
+            String[] strs = strings[i].split("=",2);
             Log.d("firebase @@@@@@@@   "+strings[i],str);
             HashMap<String,String> hashMap = new HashMap<String,String>();
             hashMap.put(strs[0],strs[1]);

@@ -33,7 +33,7 @@ public class FetchData {
     }
     public void fetchAllData(String rootRef,String path){
         DatabaseReference mDatabase;
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("users").child("QBua2xNPO5QGXRb1Ic9zDsc6u6Y2/1234/document ");
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("users").child(path);
         mDatabase.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @SuppressLint("LongLogTag")
             @Override
@@ -44,7 +44,7 @@ public class FetchData {
                 else {
                        //  Object obj = task.getResult().getValue();
                     String data = String.valueOf(task.getResult().getValue());
-            //        Log.d("firebase @@@@@@@@@@@@@@@@@", String.valueOf(data));
+                //    Log.d("firebase @@@@@@@@@@@@@@@@@", String.valueOf(data));
                     SomeFunction someFunction = new SomeFunction();
                     SomeFunction.dataReturn twoList = someFunction.stringToList(data);
                     onItemClick.getRealList(twoList);

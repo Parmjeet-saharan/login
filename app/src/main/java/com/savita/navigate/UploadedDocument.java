@@ -32,10 +32,8 @@ import java.util.HashMap;
 public class UploadedDocument extends AppCompatActivity {
     private RecyclerView recyclerView;
     private LinearLayout linearLayout,linearLayout1;
-    private TextView textView;
     private ProgressBar progressBar;
     private Button button;
-    private EditText path;
     private RadioGroup radioGroup;
     public ArrayList<HashMap<String,String>> totalList;
     public ArrayList totalKey;
@@ -82,7 +80,7 @@ public class UploadedDocument extends AppCompatActivity {
     }
     public void getData(){
         String datapath = "basic";
-        String existPath = "QBua2xNPO5QGXRb1Ic9zDsc6u6Y2/1234/document";
+        String existPath = "QBua2xNPO5QGXRb1Ic9zDsc6u6Y2/1234/document ";
                     FetchData fetchData = new FetchData();
                     fetchData.fetchAllData("users",existPath);
                     fetchData.setOnItemClickForFetchData(new FetchData.OnItemClick() {

@@ -20,12 +20,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.savita.firebase.FirebaseImage;
 import com.savita.login.DetailAdapter;
 import com.savita.login.R;
+import com.savita.simplefunction.SomeFunction;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class UpdatedDetailAdapter extends RecyclerView.Adapter<UpdatedDetailAdapter.MyViewHolder> {
     private Context context;
-    private ArrayList details;
+    public ArrayList<HashMap<String,String>> totalList;
+    public ArrayList totalKey;
+    public SomeFunction.dataReturn details = new SomeFunction.dataReturn(totalList,totalKey);
     private String uid;
     DetailAdapter.OnItemClick onItemClick;
 
@@ -40,7 +44,7 @@ public class UpdatedDetailAdapter extends RecyclerView.Adapter<UpdatedDetailAdap
 
     private static final int PICK_IMAGE_REQUEST = 22;
 
-    public UpdatedDetailAdapter(Context context, ArrayList details, String uid) {
+    public UpdatedDetailAdapter(Context context, SomeFunction.dataReturn details, String uid) {
         this.context = context;
         this.details = details;
         this.uid = uid;
@@ -57,16 +61,10 @@ public class UpdatedDetailAdapter extends RecyclerView.Adapter<UpdatedDetailAdap
 
     @Override
     public void onBindViewHolder(@NonNull UpdatedDetailAdapter.MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        String require_detail = (String) details.get(position);
+        String require_detail = (String) details.totalKey.get(position);
         //   Toast.makeText(context, require_detail + " is here", Toast.LENGTH_LONG).show();
-        holder.dName.setHint(String.valueOf(details.get(position)));
-        holder.imageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                onItemClick.getPosition(position, holder.editText);
-            }
-        });
+        holder.dName.setHint(require_detail);
+        holder.dvalue.setHint((details.totalList.get(position).get(require_detail)));
         holder.upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,7 +95,7 @@ public class UpdatedDetailAdapter extends RecyclerView.Adapter<UpdatedDetailAdap
 
     @Override
     public int getItemCount() {
-        return details.size();
+        return details.totalKey.size();
     }
 
 
@@ -106,8 +104,6 @@ public class UpdatedDetailAdapter extends RecyclerView.Adapter<UpdatedDetailAdap
         TextView dName, dvalue;
         Button edit,upload;
         ProgressBar progressBar;
-        ImageButton imageButton;
-
         public MyViewHolder(View itemView) {
             super(itemView);
             // get the reference of item view's
