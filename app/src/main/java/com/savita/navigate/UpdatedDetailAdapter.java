@@ -31,18 +31,6 @@ public class UpdatedDetailAdapter extends RecyclerView.Adapter<UpdatedDetailAdap
     public ArrayList totalKey;
     public SomeFunction.dataReturn details = new SomeFunction.dataReturn(totalList,totalKey);
     private String uid;
-    DetailAdapter.OnItemClick onItemClick;
-
-    public void setOnItemClick(DetailAdapter.OnItemClick onItemClick) {
-        this.onItemClick = onItemClick;
-    }
-
-    public interface OnItemClick {
-        void getPosition(int data, EditText editText); //pass any things
-
-    }
-
-    private static final int PICK_IMAGE_REQUEST = 22;
 
     public UpdatedDetailAdapter(Context context, SomeFunction.dataReturn details, String uid) {
         this.context = context;
@@ -87,6 +75,7 @@ public class UpdatedDetailAdapter extends RecyclerView.Adapter<UpdatedDetailAdap
                 // display a toast with person name on item click
                 holder.dvalue.setVisibility(View.GONE);
                 holder.editText.setVisibility(View.VISIBLE);
+                holder.editText.setText((details.totalList.get(position).get(require_detail)));
                 holder.upload.setVisibility(View.VISIBLE);
             }
         });

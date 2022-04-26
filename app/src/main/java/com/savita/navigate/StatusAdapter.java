@@ -16,27 +16,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.savita.login.DetailAdapter;
 import com.savita.login.R;
+import com.savita.simplefunction.SomeFunction;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.MyViewHolder> {
     private Context context;
-    private ArrayList details;
+    public ArrayList<HashMap<String,String>> totalList;
+    public ArrayList totalKey;
+    public SomeFunction.dataReturn details = new SomeFunction.dataReturn(totalList,totalKey);
     private String uid;
-    DetailAdapter.OnItemClick onItemClick;
 
-    public void setOnItemClick(DetailAdapter.OnItemClick onItemClick) {
-        this.onItemClick = onItemClick;
-    }
-
-    public interface OnItemClick {
-        void getPosition(int data, EditText editText); //pass any things
-
-    }
-
-    private static final int PICK_IMAGE_REQUEST = 22;
-
-    public StatusAdapter(Context context, ArrayList details, String uid) {
+    public StatusAdapter(Context context, SomeFunction.dataReturn details, String uid) {
         this.context = context;
         this.details = details;
         this.uid = uid;
@@ -53,13 +45,17 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(@NonNull StatusAdapter.MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        String require_detail = (String) details.get(position);
+        String require_detail = (String) details.totalKey.get(position);
         //   Toast.makeText(context, require_detail + " is here", Toast.LENGTH_LONG).show();
+        holder.exame_name.setHint(require_detail);
+        SomeFunction someFunction = new SomeFunction();
+        SomeFunction.dataReturn twoList = someFunction.stringToList((details.totalList.get(position).get(require_detail)));
+        holder.status.setHint((twoList.totalList.get(0).get((twoList.totalKey.get(0)))));
     }
 
     @Override
     public int getItemCount() {
-        return details.size();
+        return details.totalKey.size();
     }
 
 
