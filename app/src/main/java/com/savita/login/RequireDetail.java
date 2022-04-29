@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -26,10 +28,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
+import com.savita.firebase.FetchData;
+import com.savita.firebase.IsKeyExist;
 import com.savita.firebase.querryData;
+import com.savita.simplefunction.CallBack;
+import com.savita.simplefunction.SomeFunction;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class RequireDetail extends AppCompatActivity {
@@ -38,7 +46,7 @@ public class RequireDetail extends AppCompatActivity {
     private EditText adharEdit;
     private DatabaseReference mDatabase;
     private RecyclerView recyclerView;
-    private ArrayList detailList =new ArrayList();
+    private List detailList;
     private ArrayList realList =new ArrayList();
     private ArrayList textLlist = new ArrayList();
     private LinearLayout linearLayout;
@@ -59,11 +67,10 @@ public class RequireDetail extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference("Users");
         linearLayout = (LinearLayout) findViewById(R.id.dyanmic);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-             String addhar = adharEdit.getText().toString().trim();
          check.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
-
+                 String addhar = adharEdit.getText().toString().trim();
                  if (addhar.isEmpty()) {
                      adharEdit.setError("please enter correct value");
                      adharEdit.requestFocus();
@@ -104,59 +111,51 @@ public class RequireDetail extends AppCompatActivity {
             isrun = false;
             querryData querry = new querryData();
            querry.arraylistOfDetails(examKey,RequireDetail.this,documentList);
-    //        Thread t1 = new Thread(new Runnable() {
-     //           @Override
-    //            public void run() {
-   //             }
-   //         });
-    //        t1.start();
         }
         super.onStart();
     }
     private void arraylistOfDetails(Context context){
-        Intent i = getIntent();
-        Bundle b = i.getExtras();
-        if(b!= null && b.containsKey("examName")) {
-             exam_name = b.getString("examName");
-            FirebaseRemoteConfig mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
-            FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
-                    .setMinimumFetchIntervalInSeconds(30)
-                    .build();
-            mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
-            HashMap<String, String> defaultVlue = new HashMap<>();
-            defaultVlue.put(exam_name, "wait few second server down");
-
-            mFirebaseRemoteConfig.fetchAndActivate()
-                    .addOnCompleteListener(this, new OnCompleteListener<Boolean>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Boolean> task) {
-                            if (task.isSuccessful()) {
-                                boolean updated = task.getResult();
-                                String details = mFirebaseRemoteConfig.getString(exam_name);
-                                listOfDetail(details,context);
-                                //  Log.d(TAG, "Config params updated: " + updated);
-                                //   Toast.makeText(ExamList.this, examString,
-                                //          Toast.LENGTH_SHORT).show();
-
-                            } else {
-                                Toast.makeText(RequireDetail.this, "Fetch failed",
-                                        Toast.LENGTH_SHORT).show();
-                            }
+            Intent i = getIntent();
+            Bundle b = i.getExtras();
+            if(b!= null && b.containsKey("examName")) {
+                exam_name = b.getString("examName");
+                String rPath = "exam_list";
+                IsKeyExist keyExist = new  IsKeyExist();
+                keyExist.isexist(rPath,rPath,RequireDetail.this);
+                keyExist.setCallBackForIsKeyExist(new CallBack() {
+                    @Override
+                    public String setStringData(String data) {
+                        String[] dataList = data.split(",");
+                        detailList = Arrays.asList(dataList);
+                        if(detailList.size()==9){
+                            detailList.add("not available");
                         }
-                    });
-        }
-    }
-    private void listOfDetail(String details , Context context){
-        String[] detail = details.split("@",0);
-        for(int i=0;i<detail.length;i++){
-            String data = detail[i].replaceAll("\\s", "");
-            detailList.add(data);
-            String str = "editText"+ String.valueOf(i);
-            createRealList(data ,context ,i );
-        }
-        if(detailList.size()==9){
-            detailList.add("not available");
-        }
+                        String datapath = "basic";
+                        String existPath = "QBua2xNPO5QGXRb1Ic9zDsc6u6Y2/1234/details";
+                        FetchData fetchData = new FetchData();
+                        fetchData.fetchAllData("users",existPath);
+                        fetchData.setOnItemClickForFetchData(new FetchData.OnItemClick() {
+                            @SuppressLint("LongLogTag")
+                            @Override
+                            public void getRealList(SomeFunction.dataReturn list) {
+                                SomeFunction someFunction = new SomeFunction();
+                                realList = someFunction.effectiveList(detailList,list.totalList);
+                                Log.d("uploaded@@@@@@@@@@@@@@@@@@@@@", list.totalKey.get(0).toString());
+                                for(int i=0;i<realList.size();i++) {
+                                    EditText editText = new EditText(context);
+                                    editText.setHint(String.valueOf(realList.get(i)));
+                                    editText.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                                    editText.setPadding(20, 20, 20, 20);
+                                    editText.setId(Integer.valueOf(i));
+                                    linearLayout.addView(editText);
+                                    textLlist.add(editText);
+                                }
+                            }
+                        });
+                        return null;
+                    }
+                });
+            }
     }
     public boolean validate(ArrayList<EditText> editText){
         for(int i=0;i<editText.size();i++) {
@@ -206,30 +205,4 @@ public class RequireDetail extends AppCompatActivity {
         });
 
     }
-    public void createRealList(String key, Context context,int i ){
-        String uid = "QBua2xNPO5QGXRb1Ic9zDsc6u6Y2";
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Users");
-        mDatabase.child(uid).child(key).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.getValue()==null) {
-                    realList.add(key);
-                    EditText editText = new EditText(context);
-                    editText.setHint(String.valueOf(key));
-                    editText.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                    editText.setPadding(20, 20, 20, 20);
-                    editText.setId(Integer.valueOf(i));
-                    linearLayout.addView(editText);
-                    textLlist.add(editText);
-              //      Toast.makeText(RequireDetail.this,key+" is new data",Toast.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(RequireDetail.this,"something went wrong",Toast.LENGTH_LONG).show();
-
-            }
-        });
-        }
 }

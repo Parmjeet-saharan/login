@@ -33,7 +33,11 @@ public class FetchData {
     }
     public void fetchAllData(String rootRef,String path){
         DatabaseReference mDatabase;
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("users").child(path);
+        if(rootRef.equals("users")){
+            mDatabase = FirebaseDatabase.getInstance().getReference().child("users").child(path);
+        }else {
+            mDatabase = FirebaseDatabase.getInstance("https://form-dc039.firebaseio.com").getReference().child(rootRef).child(path);
+        }
         mDatabase.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @SuppressLint("LongLogTag")
             @Override
@@ -48,7 +52,6 @@ public class FetchData {
                     SomeFunction someFunction = new SomeFunction();
                     SomeFunction.dataReturn twoList = someFunction.stringToList(data);
                     onItemClick.getRealList(twoList);
-
                 }
             }
         });

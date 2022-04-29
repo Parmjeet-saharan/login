@@ -20,7 +20,12 @@ public class IsKeyExist {
     }
     public void isexist(String path, String rootRef, Context context){
   //      String uid = "QBua2xNPO5QGXRb1Ic9zDsc6u6Y2";
-            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference(rootRef);
+        DatabaseReference mDatabase ;
+        if(rootRef.equals("users")){
+            mDatabase = FirebaseDatabase.getInstance().getReference(rootRef);
+        }else {
+            mDatabase = FirebaseDatabase.getInstance("https://form-dc039.firebaseio.com").getReference();
+        }
             mDatabase.child(path).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {

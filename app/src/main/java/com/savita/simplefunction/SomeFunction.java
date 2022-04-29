@@ -38,7 +38,7 @@ public class SomeFunction {
         }
         return new dataReturn(list,arrayList);
     }
-    public ArrayList effectiveList(ArrayList totalList,ArrayList existist){
+    public ArrayList effectiveList(List totalList,ArrayList existist){
         ArrayList realList = new ArrayList();
         for(int i=0;i<totalList.size();i++){
             if(!(existist.contains(totalList.get(i)))){

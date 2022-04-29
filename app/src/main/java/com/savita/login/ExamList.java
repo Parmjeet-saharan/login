@@ -14,6 +14,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
+import com.savita.firebase.IsKeyExist;
+import com.savita.simplefunction.CallBack;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,9 +25,8 @@ import java.util.Map;
 
 public class ExamList extends AppCompatActivity {
      private RecyclerView recyclerView;
-    String examString,path;
      private Button backButton;
-     ArrayList examsList =new ArrayList();
+     List examsList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,52 +34,25 @@ public class ExamList extends AppCompatActivity {
         recyclerView =(RecyclerView) findViewById(R.id.recyclerView);
         backButton = (Button) findViewById(R.id.back);
         setExamList();
-   //     FetchData fetchData = new FetchData();
-        String uid = "QBua2xNPO5QGXRb1Ic9zDsc6u6Y2";
-    //    fetchData.fetchAllData("Users",uid,path);
     }
     public void setExamList(){
-        FirebaseRemoteConfig mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
-        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
-                .setMinimumFetchIntervalInSeconds(3600)
-                .build();
-        mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
-        HashMap<String,String> defaultVlue = new HashMap<>();
-        defaultVlue.put("exam","wait few second server down");
-
-        mFirebaseRemoteConfig.fetchAndActivate()
-                .addOnCompleteListener(this, new OnCompleteListener<Boolean>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Boolean> task) {
-                        if (task.isSuccessful()) {
-                            boolean updated = task.getResult();
-                            examString = mFirebaseRemoteConfig.getString("exam");
-                            listOfExam(examString);
-                          //  Log.d(TAG, "Config params updated: " + updated);
-                         //   Toast.makeText(ExamList.this, examString,
-                          //          Toast.LENGTH_SHORT).show();
-
-                        } else {
-                            Toast.makeText(ExamList.this, "Fetch failed",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
-    public void listOfExam(String examString){
-       String[] exams = examString.split("@",0);
-       for(int i=0;i<exams.length;i++){
-           String exam = exams[i].replaceAll("\\s", "");
-           examsList.add(exam);
-  //         Toast.makeText(ExamList.this, String.valueOf(examsList.get(i)),
-  //                 Toast.LENGTH_SHORT).show();
-       }
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(linearLayoutManager);
-        if(examsList.size()==9){
-            examsList.add("server down");
-        }
-        ExamAdapter examAdapter = new ExamAdapter(ExamList.this, examsList);
-        recyclerView.setAdapter(examAdapter); // set the Adapter to RecyclerView
+         String rPath = "exam_list";
+        IsKeyExist keyExist = new  IsKeyExist();
+        keyExist.isexist(rPath,rPath,ExamList.this);
+        keyExist.setCallBackForIsKeyExist(new CallBack() {
+            @Override
+            public String setStringData(String data) {
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+                recyclerView.setLayoutManager(linearLayoutManager);
+                String[] examArray = data.split(",");
+                examsList =  Arrays.asList(examArray);
+                if(examsList.size()==9){
+                    examsList.add("server down");
+                }
+                ExamAdapter examAdapter = new ExamAdapter(ExamList.this, examsList);
+                recyclerView.setAdapter(examAdapter); // set the Adapter to RecyclerView
+                return null;
+            }
+        });
     }
 }
