@@ -23,16 +23,9 @@ public class UpdateData {
     }
 
     public void saveData(String uid, String key, String value, Context context,String root){
+        HashMap<String, Object> map = new HashMap<>();
+        map.put(key,value);
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference(root);
-        mDatabase.child(uid).child(key).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.getValue()!=null) {
-
-                    Toast.makeText(context,"hanuman ji this is exist ",Toast.LENGTH_LONG).show();
-                }else {
-                    HashMap<String, Object> map = new HashMap<>();
-                    map.put(key,value);
                     mDatabase.child(uid).updateChildren(map)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
@@ -49,13 +42,4 @@ public class UpdateData {
                 //    Toast.makeText(context,"update fall ",Toast.LENGTH_LONG).show();
 
                 }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(context,"something went wrong ",Toast.LENGTH_LONG).show();
-                callBack.setStringData("false");
-            }
-        });
-    }
 }

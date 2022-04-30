@@ -39,8 +39,9 @@ public class FirebaseImage {
                     @Override
                     public void onSuccess(Uri uri) {
                         Toast.makeText(context,"get uri ",Toast.LENGTH_LONG).show();
+                        String uid2 = uid+"/document";
                         UpdateData saveDataInFirebase = new UpdateData();
-                        saveDataInFirebase.saveData(uid,filenmae,String.valueOf(uri),context,"Users");
+                        saveDataInFirebase.saveData(uid2,filenmae,String.valueOf(uri),context,"users");
                         saveDataInFirebase.setCallBack(new CallBack() {
                             @Override
                             public String setStringData(String data) {

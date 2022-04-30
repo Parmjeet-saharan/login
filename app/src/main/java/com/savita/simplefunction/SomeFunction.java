@@ -28,21 +28,26 @@ public class SomeFunction {
         String[] strings = str.split(",");
         for(int i=0;i<strings.length;i++){
             String[] strs = strings[i].split("=",2);
-            Log.d("firebase @@@@@@@@   "+strings[i],str);
+            Log.d("firebase somefunction @@@@@@@@   "+strings[i],str);
             HashMap<String,String> hashMap = new HashMap<String,String>();
-            hashMap.put(strs[0],strs[1]);
-            arrayList.add(strs[0]);
+            hashMap.put((strs[0].replaceAll(" ","")),strs[1]);
+            arrayList.add(strs[0].replaceAll(" ",""));
             list.add(hashMap);
 
-            Log.d("firebase @@@@@@@@   "+arrayList.get(i), list.get(i).get(strs[0]));
+            Log.d("firebase somefunction @@@@@@@@   ",arrayList.get(i)+" "+ list.get(i).get(arrayList.get(i)));
         }
         return new dataReturn(list,arrayList);
     }
-    public ArrayList effectiveList(List totalList,ArrayList existist){
+    @SuppressLint("LongLogTag")
+    public ArrayList effectiveList(List totalList, ArrayList existist){
         ArrayList realList = new ArrayList();
         for(int i=0;i<totalList.size();i++){
-            if(!(existist.contains(totalList.get(i)))){
+
+            boolean istrue = existist.contains(totalList.get(i));
+            if(!istrue){
                 realList.add(totalList.get(i));
+               // Log.d("check somefunction@@@@@@@@@@@@@@@@@@@@@", totalList.get(i).toString()+" "+
+                   //     realList.get(i).toString().length()+" "+existist.get(i).toString().length()+" "+i);
             }
         }
         return realList;

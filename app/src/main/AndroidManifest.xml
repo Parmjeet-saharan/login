@@ -25,7 +25,7 @@
             android:label="@string/title_activity_navigationactivity"
             android:theme="@style/Theme.Login.NoActionBar" />
         <activity
-            android:name=".Payment"
+            android:name="com.savita.payment.Payment"
             android:exported="false" />
         <activity
             android:name="com.savita.navigate.CanUploadDocument"

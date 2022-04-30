@@ -80,7 +80,7 @@ public class UploadedDocument extends AppCompatActivity {
     }
     public void getData(){
         String datapath = "basic";
-        String existPath = "QBua2xNPO5QGXRb1Ic9zDsc6u6Y2/1234/document ";
+        String existPath = "QBua2xNPO5QGXRb1Ic9zDsc6u6Y2/1234/document";
                     FetchData fetchData = new FetchData();
                     fetchData.fetchAllData("users",existPath);
                     fetchData.setOnItemClickForFetchData(new FetchData.OnItemClick() {
