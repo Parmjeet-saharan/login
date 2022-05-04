@@ -29,6 +29,9 @@ android {
     buildFeatures {
         viewBinding true
     }
+        packagingOptions {
+            exclude 'META-INF/androidx.cardview_cardview.version'
+    }
 }
 
 dependencies {
@@ -45,10 +48,12 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui:2.4.2'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.paytm.appinvokesdk:appinvokesdk:1.3'
-    implementation('com.paytm:pgplussdk:1.2.3') {
-        transitive = true;
-    }
+
+    // HttpRequest library
     implementation 'com.github.Parthav46:HttpRequest:1.0'
+ //   implementation('com.paytm:pgplussdk:1.4.4') {
+ //       transitive = true;
+ //   }
     implementation 'com.google.firebase:firebase-functions:20.0.2'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

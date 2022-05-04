@@ -54,7 +54,7 @@ public class  RequireDocument extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(RequireDocument.this, Payment.class);
-                startActivity(intent);
+               startActivity(intent);
             }
         });
         //  new MyAsyncTask().execute();
