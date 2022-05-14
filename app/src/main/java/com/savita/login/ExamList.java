@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -26,6 +27,7 @@ import java.util.Map;
 public class ExamList extends AppCompatActivity {
      private RecyclerView recyclerView;
      private Button backButton;
+    String rPath;
      List examsList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +38,16 @@ public class ExamList extends AppCompatActivity {
         setExamList();
     }
     public void setExamList(){
-         String rPath = "exam_list";
+        Intent i = getIntent();
+        Bundle b = i.getExtras();
+        if(b!= null && b.containsKey("type")) {
+          String type = b.getString("type");
+          if(type.equals("id")){
+              rPath  = "id_list";
+          }else{
+              rPath = "exam_list";
+          }
+        }
         IsKeyExist keyExist = new  IsKeyExist();
         keyExist.isexist(rPath,rPath,ExamList.this);
         keyExist.setCallBackForIsKeyExist(new CallBack() {

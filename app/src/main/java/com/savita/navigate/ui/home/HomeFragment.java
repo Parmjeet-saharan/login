@@ -29,6 +29,9 @@ public class HomeFragment extends Fragment {
         id.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(getActivity().getApplicationContext(), ExamList.class);
+                intent.putExtra("type","id");
+                startActivity(intent);
                 Toast.makeText(getActivity(), "Second Fragment", Toast.LENGTH_LONG).show();
             }
         });
@@ -36,6 +39,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity().getApplicationContext(), ExamList.class);
+                intent.putExtra("type","exam");
                 startActivity(intent);
                 Toast.makeText(getActivity(), "Second Fragment", Toast.LENGTH_LONG).show();
             }
