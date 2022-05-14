@@ -27,12 +27,12 @@
         tools:layout="@layout/activity_status_of_application" />
     <activity
         android:id="@+id/nav2"
-        android:name="com.savita.navigate.StatusOfApplication"
+        android:name="com.savita.navigate.UploadedDocument"
         android:label="@string/menu_gallery"
-        tools:layout="@layout/activity_status_of_application" />
+        tools:layout="@layout/activity_uploaded_document" />
     <activity
         android:id="@+id/nav3"
         android:name="com.savita.navigate.UploadedDetails"
         android:label="@string/menu_gallery"
-        tools:layout="@layout/activity_uploaded_details" />
+        tools:layout="@layout/activity_uploaded_document" />
 </navigation>

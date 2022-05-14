@@ -54,20 +54,19 @@
             android:name="com.savita.signin.ResetPassword"
             android:exported="false" />
         <activity
-            android:name="com.savita.signin.MainActivity"
-            android:exported="false" />
-        <activity
             android:name="com.savita.signin.Register"
             android:exported="false" />
         <activity
             android:name=".Home"
-            android:exported="true"
-            android:theme="@style/Theme.Login.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:exported="false"
+            android:theme="@style/Theme.Login.NoActionBar"/>
+        <activity
+            android:name="com.savita.signin.MainActivity"
+            android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
         </activity>
     </application>
 

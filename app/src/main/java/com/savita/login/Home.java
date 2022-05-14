@@ -66,12 +66,12 @@ public class Home extends AppCompatActivity {
         // menu should be considered as top level destinations.
         if(noOfUsers>1){
             mAppBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,R.id.nav1)
+                    R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,R.id.nav1,R.id.nav2)
                     .setOpenableLayout(drawer)
                     .build();
         }else {
             mAppBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.nav_home, R.id.nav1, R.id.nav_slideshow)
+                    R.id.nav_home, R.id.nav1, R.id.nav_slideshow,R.id.nav1,R.id.nav2)
                     .setOpenableLayout(drawer)
                     .build();
         }
