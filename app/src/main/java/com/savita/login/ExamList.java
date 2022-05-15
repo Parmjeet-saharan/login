@@ -17,6 +17,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.savita.firebase.IsKeyExist;
 import com.savita.simplefunction.CallBack;
+import com.savita.simplefunction.ConstantVar;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,6 +28,7 @@ import java.util.Map;
 public class ExamList extends AppCompatActivity {
      private RecyclerView recyclerView;
      private Button backButton;
+     private  String type;
     String rPath;
      List examsList;
     @Override
@@ -40,12 +42,12 @@ public class ExamList extends AppCompatActivity {
     public void setExamList(){
         Intent i = getIntent();
         Bundle b = i.getExtras();
-        if(b!= null && b.containsKey("type")) {
-          String type = b.getString("type");
-          if(type.equals("id")){
-              rPath  = "id_list";
+        if(b!= null && b.containsKey(ConstantVar.applyType)) {
+          String type = b.getString(ConstantVar.applyType);
+          if(type.equals(ConstantVar.id)){
+              rPath  = ConstantVar.idPath;
           }else{
-              rPath = "exam_list";
+              rPath = ConstantVar.examPath;
           }
         }
         IsKeyExist keyExist = new  IsKeyExist();

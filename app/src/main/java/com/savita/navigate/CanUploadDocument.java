@@ -21,11 +21,14 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.savita.firebase.FetchData;
 import com.savita.firebase.IsKeyExist;
 import com.savita.login.DetailAdapter;
 import com.savita.login.R;
 import com.savita.simplefunction.CallBack;
+import com.savita.simplefunction.ConstantVar;
 import com.savita.simplefunction.SomeFunction;
 
 import java.util.ArrayList;
@@ -36,6 +39,9 @@ public class CanUploadDocument extends AppCompatActivity {
     private TextView textView;
     private ProgressBar progressBar;
     private RadioButton r1,r2,r3;
+    private String uid,aadhar;
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
     private Button button;
     private EditText path;
     private RadioGroup radioGroup;
@@ -56,6 +62,9 @@ public class CanUploadDocument extends AppCompatActivity {
         linearLayout1 = (LinearLayout) findViewById(R.id.linear1);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(linearLayoutManager);
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+        uid = currentUser.getUid();
         r1 = (RadioButton) findViewById(R.id.checkBox1);
         r2 = (RadioButton) findViewById(R.id.checkBox2);
         r3 = (RadioButton) findViewById(R.id.checkBox3);
@@ -70,7 +79,6 @@ public class CanUploadDocument extends AppCompatActivity {
             }
         });
         button.setOnClickListener(new View.OnClickListener() {
-            String st;
             @Override
             public void onClick(View view) {
                 int selectedId = radioGroup.getCheckedRadioButtonId();
@@ -79,12 +87,11 @@ public class CanUploadDocument extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 }else {
                     RadioButton radioButton = (RadioButton)radioGroup.findViewById(selectedId);
-                    st=radioButton.getText().toString().trim();
-                    Toast.makeText(CanUploadDocument.this, "you selected  "+st,
+                    aadhar=radioButton.getText().toString().trim();
+                    Toast.makeText(CanUploadDocument.this, "you selected  "+aadhar,
                             Toast.LENGTH_SHORT).show();
                      linearLayout.setVisibility(View.GONE);
                     linearLayout1.setVisibility(View.VISIBLE);
-                    String uid = "QBua2xNPO5QGXRb1Ic9zDsc6u6Y2";
                     DetailAdapter detailAdapter = new DetailAdapter(CanUploadDocument.this, realList,uid);
                     recyclerView.setAdapter(detailAdapter); // set the Adapter to RecyclerView
                     detailAdapter.setOnItemClick(new DetailAdapter.OnItemClick() {
@@ -121,10 +128,10 @@ public class CanUploadDocument extends AppCompatActivity {
         }
     }
     public void getAdapterData(){
-        String datapath = "basic";
-        String existPath = "QBua2xNPO5QGXRb1Ic9zDsc6u6Y2/1234/document";
+        String datapath = ConstantVar.basic_document;
+        String existPath = uid+"/"+aadhar+"/"+ConstantVar.exist_document;
         IsKeyExist isKeyExist = new IsKeyExist();
-        isKeyExist.isexist(datapath,"users",CanUploadDocument.this);
+        isKeyExist.isexist(datapath,ConstantVar.rootPath,CanUploadDocument.this);
         isKeyExist.setCallBackForIsKeyExist(new CallBack() {
             @SuppressLint("LongLogTag")
             @Override
@@ -135,7 +142,7 @@ public class CanUploadDocument extends AppCompatActivity {
                         requireList.add(datalist[i]);
                     }
                     FetchData fetchData = new FetchData();
-                    fetchData.fetchAllData("users",existPath);
+                    fetchData.fetchAllData(ConstantVar.rootPath,existPath);
                     fetchData.setOnItemClickForFetchData(new FetchData.OnItemClick() {
                         @Override
                         public void getRealList(SomeFunction.dataReturn list) {
@@ -143,6 +150,7 @@ public class CanUploadDocument extends AppCompatActivity {
                             Log.d("can upload@@@@@@@@@@@@@@@@@@@@@", existListOfDocument.get(0).toString());
                             SomeFunction someFunction = new SomeFunction();
                             realList = someFunction.effectiveList(requireList,existListOfDocument);
+                            button.setVisibility(View.VISIBLE);
                         }
                     });
                 }else{

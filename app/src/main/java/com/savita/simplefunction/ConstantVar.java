@@ -3,7 +3,7 @@ package com.savita.simplefunction;
 public class ConstantVar {
     public static final String userRootPath = "Users";
     public static final String rootPath = "users";
-    public static final String examRootPath = "Exams";
+    public static final String examRootPath = "exams";
     public static final String applyType = "type";
     public static final String id = "id";
     public static final String examsApply = "exam";
@@ -19,6 +19,8 @@ public class ConstantVar {
     public static final String exam_statusPath = "exam_status";
     public static final String adharlist = "adharlist";
     public static final String checkBaseUri = "check";
+    public static final String aadhar = "aadhar";
+
     public static final int val = 22;
    public final static String MERCHANT_ID = "bDNidr78776558981598";
    public final static String WEBSITE = "WEBSTAGING";

@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.app.ProgressDialog;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.paytm.pgsdk.PaytmPaymentTransactionCallback;
 import com.paytm.pgsdk.TransactionManager;
 import com.paytm.pgsdk.PaytmOrder;
@@ -35,8 +38,10 @@ import io.github.parthav46.httprequest.HttpResponseCallback;
 public class Payment extends AppCompatActivity {
     private TextView textView,textView1,textView2;
     private Button button;
+    private FirebaseUser currentUser;
+    private FirebaseAuth mAuth;
     double catFees,ourFees,totalFees;
-    String uid = "QBua2xNPO5QGXRb1Ic9zDsc6u6Y2";
+    private String uid,aadhar,exam_name ;
     final int requestCode = 2;
     String ORDER_ID;
     LoaderManager loaderManager;
@@ -53,6 +58,9 @@ public class Payment extends AppCompatActivity {
         textView1 = (TextView) findViewById(R.id.ourFees);
         textView2 = (TextView) findViewById(R.id.totalFees);
         button = (Button) findViewById(R.id.button);
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+        uid = currentUser.getUid();
         catFees =100;
         textView.setHint("Your FORM FEES According to your catagery is "+ catFees);
         textView.setVisibility(View.VISIBLE);
@@ -62,6 +70,12 @@ public class Payment extends AppCompatActivity {
         totalFees = 160;
         textView2.setHint("SO Total FEES is  "+ totalFees);
         textView2.setVisibility(View.VISIBLE);
+        Intent i = getIntent();
+        Bundle b = i.getExtras();
+        if(b!= null && b.containsKey(ConstantVar.examName) && b.containsKey(ConstantVar.aadhar)) {
+            exam_name = b.getString(ConstantVar.examName);
+            aadhar = b.getString(ConstantVar.aadhar);
+        }
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -142,7 +156,7 @@ public class Payment extends AppCompatActivity {
             userInfo.put("custId", uid);
 
             body.put("txnAmount", txnAmount);
-            body.put("exam","ssc");
+            body.put("exam",exam_name);
             body.put("cat","gen_fees");
             body.put("userInfo", userInfo);
 

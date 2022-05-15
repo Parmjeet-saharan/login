@@ -11,6 +11,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.savita.simplefunction.ConstantVar;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +44,7 @@ public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.MyViewHolder> 
             public void onClick(View view) {
                 // display a toast with person name on item click
                 Intent intent = new Intent(context,RequireDetail.class);
-                intent.putExtra("examName",exam_name);
+                intent.putExtra(ConstantVar.examName,exam_name);
                 context.startActivity(intent);
             }
         });

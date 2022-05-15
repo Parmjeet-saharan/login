@@ -16,10 +16,14 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.savita.firebase.FetchData;
 import com.savita.firebase.IsKeyExist;
 import com.savita.payment.Payment;
 import com.savita.simplefunction.CallBack;
+import com.savita.simplefunction.ConstantVar;
 import com.savita.simplefunction.SomeFunction;
 
 import java.util.ArrayList;
@@ -30,7 +34,10 @@ public class  RequireDocument extends AppCompatActivity {
   private TextView textView,textView1;
   private Button button;
   private String exam_name;
-  private EditText path;
+  private String uid,aadhar;
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
+    private EditText path;
     Uri filePath;
   public static final int PICK_IMAGE_REQUEST =22;
     private static final String TAG = "RequireDocument";
@@ -49,12 +56,17 @@ public class  RequireDocument extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(linearLayoutManager);
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+        uid = currentUser.getUid();
         getData(RequireDocument.this);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(RequireDocument.this, Payment.class);
-               startActivity(intent);
+                intent.putExtra(ConstantVar.examName, exam_name);
+                intent.putExtra(ConstantVar.aadhar,aadhar);
+                startActivity(intent);
             }
         });
         //  new MyAsyncTask().execute();
@@ -83,9 +95,10 @@ public class  RequireDocument extends AppCompatActivity {
     private void getData(Context context){
         Intent i = getIntent();
         Bundle b = i.getExtras();
-        if(b!= null && b.containsKey("examName")) {
-            exam_name = b.getString("examName");
-            String rPath = "exams/ssc/require_document";
+        if(b!= null && b.containsKey(ConstantVar.examName) && b.containsKey(ConstantVar.aadhar)) {
+            exam_name = b.getString(ConstantVar.examName);
+            aadhar = b.getString(ConstantVar.aadhar);
+            String rPath = ConstantVar.examRootPath+"/"+exam_name+"/"+ConstantVar.require_document;
             IsKeyExist keyExist = new  IsKeyExist();
             keyExist.isexist(rPath,rPath,RequireDocument.this);
             keyExist.setCallBackForIsKeyExist(new CallBack() {
@@ -96,20 +109,19 @@ public class  RequireDocument extends AppCompatActivity {
                     if(detailList.size()==9){
                         detailList.add("not available");
                     }
-                    String datapath = "basic";
-                    String existPath = "QBua2xNPO5QGXRb1Ic9zDsc6u6Y2/1234/document";
+                    String existPath = uid+"/"+aadhar+"/"+ConstantVar.exist_document;
                     FetchData fetchData = new FetchData();
                     fetchData.fetchAllData("users",existPath);
                     fetchData.setOnItemClickForFetchData(new FetchData.OnItemClick() {
                         @SuppressLint("LongLogTag")
                         @Override
                         public void getRealList(SomeFunction.dataReturn list) {
-                            String uid = "QBua2xNPO5QGXRb1Ic9zDsc6u6Y2/1234";
+                            String uid2 = uid+"/"+aadhar;
                             SomeFunction someFunction = new SomeFunction();
                             realList = someFunction.effectiveList(detailList,list.totalKey);
                              //   Log.d("check@@@@@@@@@@@@@@@@@@@@@", list.totalKey.get(0).toString()+" "+
                            //             realList.get(0)+" "+detailList.get(0));
-                            DetailAdapter detailAdapter = new DetailAdapter(RequireDocument.this, realList,uid);
+                            DetailAdapter detailAdapter = new DetailAdapter(RequireDocument.this, realList,uid2);
                             recyclerView.setAdapter(detailAdapter); // set the Adapter to RecyclerView
                             detailAdapter.setOnItemClick(new DetailAdapter.OnItemClick() {
                                 @Override

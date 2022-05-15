@@ -19,11 +19,14 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.savita.firebase.FetchData;
 import com.savita.firebase.IsKeyExist;
 import com.savita.login.DetailAdapter;
 import com.savita.login.R;
 import com.savita.simplefunction.CallBack;
+import com.savita.simplefunction.ConstantVar;
 import com.savita.simplefunction.SomeFunction;
 
 import java.util.ArrayList;
@@ -34,6 +37,10 @@ public class UploadedDocument extends AppCompatActivity {
     private LinearLayout linearLayout,linearLayout1;
     private ProgressBar progressBar;
     private Button button;
+    private RadioButton r1,r2,r3;
+    private String uid,aadhar;
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
     private RadioGroup radioGroup;
     public ArrayList<HashMap<String,String>> totalList;
     public ArrayList totalKey;
@@ -50,6 +57,14 @@ public class UploadedDocument extends AppCompatActivity {
         linearLayout1 = (LinearLayout) findViewById(R.id.linear1);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(linearLayoutManager);
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+        uid = currentUser.getUid();
+        r1 = (RadioButton) findViewById(R.id.checkBox1);
+        r2 = (RadioButton) findViewById(R.id.checkBox2);
+        r3 = (RadioButton) findViewById(R.id.checkBox3);
+        GetAadharList getAadharList = new GetAadharList();
+        ArrayList aadharList = getAadharList.getAadhars(UploadedDocument.this,r1,r2,r3);
         radioGroup.clearCheck();
         getData();
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -59,7 +74,6 @@ public class UploadedDocument extends AppCompatActivity {
             }
         });
         button.setOnClickListener(new View.OnClickListener() {
-            String st;
             @Override
             public void onClick(View view) {
                 int selectedId = radioGroup.getCheckedRadioButtonId();
@@ -68,10 +82,9 @@ public class UploadedDocument extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 }else {
                     RadioButton radioButton = (RadioButton)radioGroup.findViewById(selectedId);
-                    st=radioButton.getText().toString().trim();
+                    aadhar=radioButton.getText().toString().trim();
                     linearLayout.setVisibility(View.GONE);
                     linearLayout1.setVisibility(View.VISIBLE);
-                    String uid = "QBua2xNPO5QGXRb1Ic9zDsc6u6Y2";
                     UploadedDocumentAdapter uploadedDocumentAdapter = new UploadedDocumentAdapter(UploadedDocument.this, realList,uid);
                     recyclerView.setAdapter(uploadedDocumentAdapter); // set the Adapter to RecyclerView
                 }
@@ -79,16 +92,16 @@ public class UploadedDocument extends AppCompatActivity {
         });
     }
     public void getData(){
-        String datapath = "basic";
-        String existPath = "QBua2xNPO5QGXRb1Ic9zDsc6u6Y2/1234/document";
+        String existPath = uid+"/"+aadhar+"/"+ ConstantVar.exist_document;
                     FetchData fetchData = new FetchData();
-                    fetchData.fetchAllData("users",existPath);
+                    fetchData.fetchAllData(ConstantVar.rootPath,existPath);
                     fetchData.setOnItemClickForFetchData(new FetchData.OnItemClick() {
                         @SuppressLint("LongLogTag")
                         @Override
                         public void getRealList(SomeFunction.dataReturn list) {
                             ArrayList existListOfDocument = list.totalKey;
                             realList = list;
+                            button.setVisibility(View.VISIBLE);
                             Log.d("uploaded@@@@@@@@@@@@@@@@@@@@@", existListOfDocument.get(0).toString());
                         }
                     });

@@ -16,21 +16,21 @@ import androidx.lifecycle.ViewModelProvider;
 import com.savita.login.ExamList;
 import com.savita.login.R;
 import com.savita.login.databinding.FragmentHomeBinding;
+import com.savita.simplefunction.ConstantVar;
+
 public class HomeFragment extends Fragment {
       View view;
       Button exam,id;;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, container, false);
-// get the reference of Button
         exam = (Button) view.findViewById(R.id.simpleButton1);
         id = (Button) view.findViewById(R.id.simpleButton2);
-// perform setOnClickListener on second Button
         id.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity().getApplicationContext(), ExamList.class);
-                intent.putExtra("type","id");
+                intent.putExtra(ConstantVar.applyType,ConstantVar.id);
                 startActivity(intent);
                 Toast.makeText(getActivity(), "Second Fragment", Toast.LENGTH_LONG).show();
             }
@@ -39,7 +39,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity().getApplicationContext(), ExamList.class);
-                intent.putExtra("type","exam");
+                intent.putExtra(ConstantVar.applyType,ConstantVar.examsApply);
                 startActivity(intent);
                 Toast.makeText(getActivity(), "Second Fragment", Toast.LENGTH_LONG).show();
             }
