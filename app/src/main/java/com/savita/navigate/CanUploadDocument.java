@@ -35,6 +35,7 @@ public class CanUploadDocument extends AppCompatActivity {
     private LinearLayout linearLayout,linearLayout1;
     private TextView textView;
     private ProgressBar progressBar;
+    private RadioButton r1,r2,r3;
     private Button button;
     private EditText path;
     private RadioGroup radioGroup;
@@ -55,8 +56,13 @@ public class CanUploadDocument extends AppCompatActivity {
         linearLayout1 = (LinearLayout) findViewById(R.id.linear1);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(linearLayoutManager);
+        r1 = (RadioButton) findViewById(R.id.checkBox1);
+        r2 = (RadioButton) findViewById(R.id.checkBox2);
+        r3 = (RadioButton) findViewById(R.id.checkBox3);
+         GetAadharList getAadharList = new GetAadharList();
+         ArrayList aadharList = getAadharList.getAadhars(CanUploadDocument.this,r1,r2,r3);
         radioGroup.clearCheck();
-         getAdapterData();
+        getAdapterData();
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -74,6 +80,8 @@ public class CanUploadDocument extends AppCompatActivity {
                 }else {
                     RadioButton radioButton = (RadioButton)radioGroup.findViewById(selectedId);
                     st=radioButton.getText().toString().trim();
+                    Toast.makeText(CanUploadDocument.this, "you selected  "+st,
+                            Toast.LENGTH_SHORT).show();
                      linearLayout.setVisibility(View.GONE);
                     linearLayout1.setVisibility(View.VISIBLE);
                     String uid = "QBua2xNPO5QGXRb1Ic9zDsc6u6Y2";

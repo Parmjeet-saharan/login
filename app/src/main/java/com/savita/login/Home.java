@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -26,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.savita.login.databinding.ActivityNavigationBinding;
 public class Home extends AppCompatActivity {
     private FirebaseAuth mAuth;
+    private TextView textView;
     private FirebaseUser user;
     private String userId;
     private DatabaseReference database;

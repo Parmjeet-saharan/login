@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,8 +45,10 @@ import java.util.Map;
 
 public class RequireDetail extends AppCompatActivity {
     private TextView textView;
-    String uid = "QBua2xNPO5QGXRb1Ic9zDsc6u6Y2/1234/details";
+    String uid ;
     private Button step2,check;
+    FirebaseUser currentUser;
+    private FirebaseAuth mAuth;
     private EditText adharEdit;
     private DatabaseReference mDatabase;
     private RecyclerView recyclerView;
@@ -66,6 +70,9 @@ public class RequireDetail extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference("Users");
         linearLayout = (LinearLayout) findViewById(R.id.dyanmic);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+        uid = currentUser.getUid();
          check.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
