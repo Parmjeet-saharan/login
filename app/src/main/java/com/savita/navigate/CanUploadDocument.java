@@ -71,7 +71,6 @@ public class CanUploadDocument extends AppCompatActivity {
          GetAadharList getAadharList = new GetAadharList();
          ArrayList aadharList = getAadharList.getAadhars(CanUploadDocument.this,r1,r2,r3);
         radioGroup.clearCheck();
-        getAdapterData();
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -88,26 +87,11 @@ public class CanUploadDocument extends AppCompatActivity {
                 }else {
                     RadioButton radioButton = (RadioButton)radioGroup.findViewById(selectedId);
                     aadhar=radioButton.getText().toString().trim();
+                    getAdapterData();
                     Toast.makeText(CanUploadDocument.this, "you selected  "+aadhar,
                             Toast.LENGTH_SHORT).show();
                      linearLayout.setVisibility(View.GONE);
                     linearLayout1.setVisibility(View.VISIBLE);
-                    DetailAdapter detailAdapter = new DetailAdapter(CanUploadDocument.this, realList,uid);
-                    recyclerView.setAdapter(detailAdapter); // set the Adapter to RecyclerView
-                    detailAdapter.setOnItemClick(new DetailAdapter.OnItemClick() {
-                        @Override
-                        public void getPosition(int data, EditText editText) {
-                            Intent intent = new Intent();
-                            intent.setType("image/*");
-                            path=editText;
-                            intent.setAction(Intent.ACTION_GET_CONTENT);
-                            startActivityForResult(
-                                    Intent.createChooser(
-                                            intent,
-                                            "Select Image from here..."),
-                                    PICK_IMAGE_REQUEST);
-                        }
-                    });
                 }
             }
         });
@@ -130,6 +114,7 @@ public class CanUploadDocument extends AppCompatActivity {
     public void getAdapterData(){
         String datapath = ConstantVar.basic_document;
         String existPath = uid+"/"+aadhar+"/"+ConstantVar.exist_document;
+        Log.d("Canupload", "getAdapterData%%%%%%%%%%%%%%%%%: "+existPath);
         IsKeyExist isKeyExist = new IsKeyExist();
         isKeyExist.isexist(datapath,ConstantVar.rootPath,CanUploadDocument.this);
         isKeyExist.setCallBackForIsKeyExist(new CallBack() {
@@ -151,6 +136,22 @@ public class CanUploadDocument extends AppCompatActivity {
                             SomeFunction someFunction = new SomeFunction();
                             realList = someFunction.effectiveList(requireList,existListOfDocument);
                             button.setVisibility(View.VISIBLE);
+                            DetailAdapter detailAdapter = new DetailAdapter(CanUploadDocument.this, realList,uid);
+                            recyclerView.setAdapter(detailAdapter); // set the Adapter to RecyclerView
+                            detailAdapter.setOnItemClick(new DetailAdapter.OnItemClick() {
+                                @Override
+                                public void getPosition(int data, EditText editText) {
+                                    Intent intent = new Intent();
+                                    intent.setType("image/*");
+                                    path=editText;
+                                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                                    startActivityForResult(
+                                            Intent.createChooser(
+                                                    intent,
+                                                    "Select Image from here..."),
+                                            PICK_IMAGE_REQUEST);
+                                }
+                            });
                         }
                     });
                 }else{

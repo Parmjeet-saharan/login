@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -99,6 +100,7 @@ public class  RequireDocument extends AppCompatActivity {
             exam_name = b.getString(ConstantVar.examName);
             aadhar = b.getString(ConstantVar.aadhar);
             String rPath = ConstantVar.examRootPath+"/"+exam_name+"/"+ConstantVar.require_document;
+            Log.d(TAG, "getData%%%%%%%%%%%%%%%%%%%: "+rPath);
             IsKeyExist keyExist = new  IsKeyExist();
             keyExist.isexist(rPath,rPath,RequireDocument.this);
             keyExist.setCallBackForIsKeyExist(new CallBack() {
