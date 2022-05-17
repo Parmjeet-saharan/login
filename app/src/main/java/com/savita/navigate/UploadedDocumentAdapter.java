@@ -71,8 +71,9 @@ public class UploadedDocumentAdapter extends RecyclerView.Adapter<UploadedDocume
             @Override
             public void onClick(View view) {
                 String path = ConstantVar.userRootPath+"/"+uid+"/"+require_detail+".jpg";
+                String pa = uid+"/"+ConstantVar.exist_document;
              FirebaseImage firebaseImage = new FirebaseImage();
-             firebaseImage.deleteImage(path);
+             firebaseImage.deleteImage(path,pa,require_detail,context);
              firebaseImage.setCallBackForUploadImage(new CallBack() {
                  @Override
                  public String setStringData(String data) {

@@ -86,7 +86,7 @@ public class FirebaseImage {
                 }) ;
     }
 
-    public void deleteImage(String fullPath){
+    public void deleteImage(String fullPath,String path,String filenmae,Context context){
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
         StorageReference desertRef = storageRef.child(fullPath);
@@ -94,6 +94,20 @@ public class FirebaseImage {
         desertRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
+                UpdateData saveDataInFirebase = new UpdateData();
+                saveDataInFirebase.saveData(path,filenmae,null,context,"users");
+                saveDataInFirebase.setCallBack(new CallBack() {
+                    @Override
+                    public String setStringData(String data) {
+                        if(data=="true") {
+                            ncallBack.setStringData("true");
+                            return "true";
+                        }else{
+                            ncallBack.setStringData("false");
+                            return "false";
+                        }
+                    }
+                });
                 ncallBack.setStringData("true");
                 // File deleted successfully
             }
