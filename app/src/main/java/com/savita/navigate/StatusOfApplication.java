@@ -59,7 +59,6 @@ public class StatusOfApplication extends AppCompatActivity {
         GetAadharList getAadharList = new GetAadharList();
         ArrayList aadharList = getAadharList.getAadhars(StatusOfApplication.this,r1,r2,r3);
         radioGroup.clearCheck();
-        getData();
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -76,10 +75,9 @@ public class StatusOfApplication extends AppCompatActivity {
                 }else {
                     RadioButton radioButton = (RadioButton)radioGroup.findViewById(selectedId);
                     aadhar=radioButton.getText().toString().trim();
+                    getData();
                     linearLayout.setVisibility(View.GONE);
                     linearLayout1.setVisibility(View.VISIBLE);
-                    StatusAdapter statusAdapter = new StatusAdapter(StatusOfApplication.this, realList,uid);
-                    recyclerView.setAdapter(statusAdapter); // set the Adapter to RecyclerView
                 }
             }
         });
@@ -96,6 +94,8 @@ public class StatusOfApplication extends AppCompatActivity {
                 realList = list;
                 button.setVisibility(View.VISIBLE);
                 Log.d("uploaded@@@@@@@@@@@@@@@@@@@@@", existListOfDocument.get(0).toString());
+                StatusAdapter statusAdapter = new StatusAdapter(StatusOfApplication.this, realList,uid);
+                recyclerView.setAdapter(statusAdapter); // set the Adapter to RecyclerView
             }
         });
     }

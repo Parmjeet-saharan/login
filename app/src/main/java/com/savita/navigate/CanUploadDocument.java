@@ -131,12 +131,13 @@ public class CanUploadDocument extends AppCompatActivity {
                     fetchData.setOnItemClickForFetchData(new FetchData.OnItemClick() {
                         @Override
                         public void getRealList(SomeFunction.dataReturn list) {
+                            String uid2 = uid+"/"+aadhar;
                             ArrayList existListOfDocument = list.totalKey;
                             Log.d("can upload@@@@@@@@@@@@@@@@@@@@@", existListOfDocument.get(0).toString());
                             SomeFunction someFunction = new SomeFunction();
                             realList = someFunction.effectiveList(requireList,existListOfDocument);
                             button.setVisibility(View.VISIBLE);
-                            DetailAdapter detailAdapter = new DetailAdapter(CanUploadDocument.this, realList,uid);
+                            DetailAdapter detailAdapter = new DetailAdapter(CanUploadDocument.this, realList,uid2);
                             recyclerView.setAdapter(detailAdapter); // set the Adapter to RecyclerView
                             detailAdapter.setOnItemClick(new DetailAdapter.OnItemClick() {
                                 @Override
