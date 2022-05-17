@@ -1,18 +1,26 @@
 package com.savita.firebase;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
+import android.os.Environment;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.savita.simplefunction.CallBack;
+
+import java.io.File;
+import java.io.IOException;
+
 
 public class FirebaseImage {
     CallBack ncallBack;
@@ -86,6 +94,7 @@ public class FirebaseImage {
         desertRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
+                ncallBack.setStringData("true");
                 // File deleted successfully
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -94,5 +103,15 @@ public class FirebaseImage {
                 // Uh-oh, an error occurred!
             }
         });
+    }
+    public void downloasImage(Context context,String filename,String link)  {
+        DownloadManager downloadmanager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+        Uri uri = Uri.parse(link);
+        DownloadManager.Request request = new DownloadManager.Request(uri);
+        request.setTitle(filename);
+        request.setDescription("Downloading");
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES,filename+".jpg");
+        downloadmanager.enqueue(request);
     }
 }

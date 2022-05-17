@@ -19,9 +19,9 @@ import androidx.documentfile.provider.DocumentFile;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.savita.firebase.FirebaseImage;
-import com.savita.login.DetailAdapter;
 import com.savita.login.R;
 import com.savita.simplefunction.CallBack;
+import com.savita.simplefunction.ConstantVar;
 import com.savita.simplefunction.SomeFunction;
 import com.squareup.picasso.Picasso;
 
@@ -70,15 +70,31 @@ public class UploadedDocumentAdapter extends RecyclerView.Adapter<UploadedDocume
         holder.remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                String path = ConstantVar.userRootPath+"/"+uid+"/"+require_detail+".jpg";
+             FirebaseImage firebaseImage = new FirebaseImage();
+             firebaseImage.deleteImage(path);
+             firebaseImage.setCallBackForUploadImage(new CallBack() {
+                 @Override
+                 public String setStringData(String data) {
+                     if(data.equals("true")) {
+                         holder.imageView.setVisibility(View.GONE);
+                         holder.edit.setVisibility(View.GONE);
+                         holder.remove.setVisibility(View.GONE);
+                         holder.download.setVisibility(View.GONE);
+                     }else {
+                         Toast.makeText(context,"something went wrong try again!",Toast.LENGTH_LONG).show();
+                     }
+                     return null;
+                 }
+             });
             }
         });
         holder.download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                holder.progressBar.setVisibility(View.GONE);
-
+                Toast.makeText(context,"downloading start",Toast.LENGTH_LONG).show();
+                FirebaseImage firebaseImage = new FirebaseImage();
+                firebaseImage.downloasImage(context,require_detail,link);
             }
         });
 
