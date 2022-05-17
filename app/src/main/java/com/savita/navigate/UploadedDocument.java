@@ -1,6 +1,7 @@
 package com.savita.navigate;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.documentfile.provider.DocumentFile;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,7 +40,10 @@ public class UploadedDocument extends AppCompatActivity {
     private Button button;
     private RadioButton r1,r2,r3;
     private String uid,aadhar;
+    private EditText path;
+    public static final int PICK_IMAGE_REQUEST =22;
     private FirebaseAuth mAuth;
+    Uri filePath;
     private FirebaseUser currentUser;
     private RadioGroup radioGroup;
     public ArrayList<HashMap<String,String>> totalList;
@@ -89,6 +93,21 @@ public class UploadedDocument extends AppCompatActivity {
             }
         });
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null )
+        {
+            filePath = data.getData();
+            DocumentFile sourceFile = DocumentFile.fromSingleUri(UploadedDocument.this, filePath);
+            boolean bool = sourceFile.exists();
+            Toast.makeText(UploadedDocument.this, String.valueOf(bool)+"  exist",
+                    Toast.LENGTH_SHORT).show();
+            path.setText(String.valueOf(filePath));
+
+        }
+    }
     public void getData(){
         String existPath = uid+"/"+aadhar+"/"+ ConstantVar.exist_document;
                     FetchData fetchData = new FetchData();
@@ -97,12 +116,27 @@ public class UploadedDocument extends AppCompatActivity {
                         @SuppressLint("LongLogTag")
                         @Override
                         public void getRealList(SomeFunction.dataReturn list) {
+                            String uid2 = uid+"/"+aadhar;
                             ArrayList existListOfDocument = list.totalKey;
                             realList = list;
                             button.setVisibility(View.VISIBLE);
                             Log.d("uploaded@@@@@@@@@@@@@@@@@@@@@", existListOfDocument.get(0).toString());
-                            UploadedDocumentAdapter uploadedDocumentAdapter = new UploadedDocumentAdapter(UploadedDocument.this, realList,uid);
+                            UploadedDocumentAdapter uploadedDocumentAdapter = new UploadedDocumentAdapter(UploadedDocument.this, realList,uid2);
                             recyclerView.setAdapter(uploadedDocumentAdapter); // set the Adapter to RecyclerView
+                            uploadedDocumentAdapter.setOnItemClick(new UploadedDocumentAdapter.OnItemClick() {
+                                @Override
+                                public void getPosition(int data, EditText editText) {
+                                    Intent intent = new Intent();
+                                    intent.setType("image/*");
+                                    path=editText;
+                                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                                    startActivityForResult(
+                                            Intent.createChooser(
+                                                    intent,
+                                                    "Select Image from here..."),
+                                            PICK_IMAGE_REQUEST);
+                                }
+                            });
                         }
                     });
     }

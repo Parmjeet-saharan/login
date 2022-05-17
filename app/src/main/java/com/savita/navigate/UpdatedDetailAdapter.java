@@ -18,8 +18,11 @@ import androidx.documentfile.provider.DocumentFile;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.savita.firebase.FirebaseImage;
+import com.savita.firebase.UpdateData;
 import com.savita.login.DetailAdapter;
 import com.savita.login.R;
+import com.savita.simplefunction.CallBack;
+import com.savita.simplefunction.ConstantVar;
 import com.savita.simplefunction.SomeFunction;
 
 import java.util.ArrayList;
@@ -59,9 +62,28 @@ public class UpdatedDetailAdapter extends RecyclerView.Adapter<UpdatedDetailAdap
                 if((holder.editText.getText().toString())==(holder.dvalue.getText().toString())){
 
                 }else if((holder.editText.getText().toString())==""){
-
+                    holder.editText.setError("please enter some data");
+                    holder.editText.requestFocus();
                 }else {
-
+                    UpdateData updateData = new UpdateData();
+                    updateData.saveData(uid,require_detail,(holder.editText.getText().toString().trim()),context, ConstantVar.rootPath);
+                    updateData.setCallBack(new CallBack() {
+                        @Override
+                        public String setStringData(String data) {
+                            if(data.equals("true")){
+                                holder.dvalue.setVisibility(View.VISIBLE);
+                                holder.dvalue.setHint(holder.editText.getText().toString().trim());
+                                holder.editText.setVisibility(View.GONE);
+                                holder.upload.setVisibility(View.GONE);
+                            }else{
+                                holder.dvalue.setVisibility(View.VISIBLE);
+                                holder.dvalue.setHint("something went wrong try again!");
+                                holder.editText.setVisibility(View.GONE);
+                                holder.upload.setVisibility(View.GONE);
+                            }
+                            return null;
+                        }
+                    });
                 }
                 holder.progressBar.setVisibility(View.GONE);
 

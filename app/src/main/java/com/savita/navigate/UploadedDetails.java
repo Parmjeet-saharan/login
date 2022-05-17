@@ -96,7 +96,7 @@ public class UploadedDetails extends AppCompatActivity {
                 realList = list;
                 button.setVisibility(View.VISIBLE);
                 Log.d("uploaded@@@@@@@@@@@@@@@@@@@@@", existListOfDocument.get(0).toString());
-                UpdatedDetailAdapter updatedDetailAdapter = new UpdatedDetailAdapter(UploadedDetails.this, realList,uid);
+                UpdatedDetailAdapter updatedDetailAdapter = new UpdatedDetailAdapter(UploadedDetails.this, realList,existPath);
                 recyclerView.setAdapter(updatedDetailAdapter); // set the Adapter to RecyclerView
             }
         });
