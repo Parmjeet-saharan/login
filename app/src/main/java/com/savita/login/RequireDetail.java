@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -15,48 +17,59 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
-import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.savita.firebase.FetchData;
+import com.savita.firebase.IsKeyExist;
+import com.savita.firebase.UpdateData;
+import com.savita.simplefunction.CallBack;
+import com.savita.simplefunction.ConstantVar;
+import com.savita.simplefunction.SomeFunction;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
+import java.util.List;
 
 public class RequireDetail extends AppCompatActivity {
     private TextView textView;
-    private Button step2;
-    private DatabaseReference mDatabase;
+    private String uid,aadhar ;
+    private Button step2,check;
+    FirebaseUser currentUser;
+    private FirebaseAuth mAuth;
+    private EditText adharEdit;
     private RecyclerView recyclerView;
-    private ArrayList detailList =new ArrayList();
+    private List detailList;
     private ArrayList realList =new ArrayList();
     private ArrayList textLlist = new ArrayList();
     private LinearLayout linearLayout;
-    private ArrayList documentList = new ArrayList();
-    private boolean isrun = true;
     private ProgressBar progressBar;
     private String exam_name;
-    private String examKey;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_require_detail);
-
+        adharEdit = (EditText) findViewById(R.id.addharId);
         textView = (TextView) findViewById(R.id.textView);
         step2 = (Button) findViewById(R.id.step2);
+        check = (Button) findViewById(R.id.check);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        mDatabase = FirebaseDatabase.getInstance().getReference("Users");
         linearLayout = (LinearLayout) findViewById(R.id.dyanmic);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-             arraylistOfDetails(RequireDetail.this);
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+        uid = currentUser.getUid();
+        check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                aadhar = adharEdit.getText().toString().trim();
+                if (aadhar.isEmpty()) {
+                    adharEdit.setError("please enter correct value");
+                    adharEdit.requestFocus();
+                }else {
+                    arraylistOfDetails(RequireDetail.this);
+                }
+            }
+        });
         step2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,12 +80,21 @@ public class RequireDetail extends AppCompatActivity {
                         String key = (String) realList.get(i);
                         EditText editText = (EditText) textLlist.get(i);
                         String value = editText.getText().toString().trim();
-                        upDateData(key, value);
+                        UpdateData updateData = new UpdateData();
+                        updateData.saveData(uid,key,value,RequireDetail.this,ConstantVar.rootPath);
+                        updateData.setCallBack(new CallBack() {
+                            @SuppressLint("LongLogTag")
+                            @Override
+                            public String setStringData(String data) {
+                                Log.d("is data upload @@@2@@@@@@@@@@@  ", data);
+                                return null;
+                            }
+                        });
                     }
                     progressBar.setVisibility(View.GONE);
                     Intent intent = new Intent(RequireDetail.this, RequireDocument.class);
-                    intent.putExtra("examName", exam_name);
-                    intent.putExtra("list",documentList);
+                    intent.putExtra(ConstantVar.examName, exam_name);
+                    intent.putExtra(ConstantVar.aadhar,aadhar);
                     startActivity(intent);
                 }
             }
@@ -80,67 +102,49 @@ public class RequireDetail extends AppCompatActivity {
     }
     @Override
     protected void onStart() {
-
-        Intent i= getIntent();
-        Bundle b = i.getExtras();
-        if(b!=null && b.containsKey("examName") && isrun) {
-            examKey = b.getString("examName");
-            examKey = exam_name +"document";
-            isrun = false;
-            querryData querry = new querryData();
-           querry.arraylistOfDetails(examKey,RequireDetail.this,documentList);
-    //        Thread t1 = new Thread(new Runnable() {
-     //           @Override
-    //            public void run() {
-   //             }
-   //         });
-    //        t1.start();
-        }
         super.onStart();
     }
     private void arraylistOfDetails(Context context){
         Intent i = getIntent();
         Bundle b = i.getExtras();
-        if(b!= null && b.containsKey("examName")) {
-             exam_name = b.getString("examName");
-            FirebaseRemoteConfig mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
-            FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
-                    .setMinimumFetchIntervalInSeconds(30)
-                    .build();
-            mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
-            HashMap<String, String> defaultVlue = new HashMap<>();
-            defaultVlue.put(exam_name, "wait few second server down");
-
-            mFirebaseRemoteConfig.fetchAndActivate()
-                    .addOnCompleteListener(this, new OnCompleteListener<Boolean>() {
+        if(b!= null && b.containsKey(ConstantVar.examName)) {
+            exam_name = b.getString(ConstantVar.examName);
+            String rPath =ConstantVar.examRootPath+"/"+exam_name+"/"+ConstantVar.require_details;
+            IsKeyExist keyExist = new  IsKeyExist();
+            keyExist.isexist(rPath,rPath,RequireDetail.this);
+            keyExist.setCallBackForIsKeyExist(new CallBack() {
+                @Override
+                public String setStringData(String data) {
+                    String[] dataList = data.split(",");
+                    detailList = Arrays.asList(dataList);
+                    if(detailList.size()==9){
+                        detailList.add("not available");
+                    }
+                    String existPath =uid+"/"+aadhar+"/"+ConstantVar.exist_details;
+                    FetchData fetchData = new FetchData();
+                    fetchData.fetchAllData(ConstantVar.rootPath,existPath);
+                    fetchData.setOnItemClickForFetchData(new FetchData.OnItemClick() {
+                        @SuppressLint("LongLogTag")
                         @Override
-                        public void onComplete(@NonNull Task<Boolean> task) {
-                            if (task.isSuccessful()) {
-                                boolean updated = task.getResult();
-                                String details = mFirebaseRemoteConfig.getString(exam_name);
-                                listOfDetail(details,context);
-                                //  Log.d(TAG, "Config params updated: " + updated);
-                                //   Toast.makeText(ExamList.this, examString,
-                                //          Toast.LENGTH_SHORT).show();
-
-                            } else {
-                                Toast.makeText(RequireDetail.this, "Fetch failed",
-                                        Toast.LENGTH_SHORT).show();
+                        public void getRealList(SomeFunction.dataReturn list) {
+                            SomeFunction someFunction = new SomeFunction();
+                            realList = someFunction.effectiveList(detailList,list.totalKey);
+                            for(int i=0;i<realList.size();i++) {
+                                Log.d("check@@@@@@@@@@@@@@@@@@@@@", list.totalKey.get(i).toString()+" "+
+                                        realList.get(i)+" "+detailList.get(i)+" "+i);
+                                EditText editText = new EditText(context);
+                                editText.setHint(String.valueOf(realList.get(i)));
+                                editText.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                                editText.setPadding(20, 20, 20, 20);
+                                editText.setId(Integer.valueOf(i));
+                                linearLayout.addView(editText);
+                                textLlist.add(editText);
                             }
                         }
                     });
-        }
-    }
-    private void listOfDetail(String details , Context context){
-        String[] detail = details.split("@",0);
-        for(int i=0;i<detail.length;i++){
-            String data = detail[i].replaceAll("\\s", "");
-            detailList.add(data);
-            String str = "editText"+ String.valueOf(i);
-            createRealList(data ,context ,i );
-        }
-        if(detailList.size()==9){
-            detailList.add("not available");
+                    return null;
+                }
+            });
         }
     }
     public boolean validate(ArrayList<EditText> editText){
@@ -154,67 +158,4 @@ public class RequireDetail extends AppCompatActivity {
         }
         return true;
     }
-
-    public void upDateData(String key,String value){
-        String uid = "QBua2xNPO5QGXRb1Ic9zDsc6u6Y2";
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Users");
-        mDatabase.child(uid).child(key).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.getValue()!=null) {
-
-                    Toast.makeText(RequireDetail.this,"hanuman ji this is exist ",Toast.LENGTH_LONG).show();
-                }else {
-                    HashMap<String, Object> map = new HashMap<>();
-                    map.put(key,value);
-                    mDatabase.child(uid).updateChildren(map)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if(task.isSuccessful()){
-                                        Toast.makeText(RequireDetail.this,"update done ",Toast.LENGTH_LONG).show();
-                                    }else{
-                                        Toast.makeText(RequireDetail.this,"update fail ",Toast.LENGTH_LONG).show();
-                                    }
-                                }
-                            });
-                    Toast.makeText(RequireDetail.this,"update fall ",Toast.LENGTH_LONG).show();
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(RequireDetail.this,"something went wrong ",Toast.LENGTH_LONG).show();
-
-            }
-        });
-
-    }
-    public void createRealList(String key, Context context,int i ){
-        String uid = "QBua2xNPO5QGXRb1Ic9zDsc6u6Y2";
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Users");
-        mDatabase.child(uid).child(key).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.getValue()==null) {
-                    realList.add(key);
-                    EditText editText = new EditText(context);
-                    editText.setHint(String.valueOf(key));
-                    editText.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                    editText.setPadding(20, 20, 20, 20);
-                    editText.setId(Integer.valueOf(i));
-                    linearLayout.addView(editText);
-                    textLlist.add(editText);
-              //      Toast.makeText(RequireDetail.this,key+" is new data",Toast.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(RequireDetail.this,"something went wrong",Toast.LENGTH_LONG).show();
-
-            }
-        });
-        }
 }

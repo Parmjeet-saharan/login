@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.savita.navigate.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+    <activity
+        android:id="@+id/nav_gallery"
+        android:name="com.savita.navigate.CanUploadDocument"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/activity_user_select" />
+    <activity
+        android:id="@+id/nav_slideshow"
+        android:name="com.savita.navigate.UploadedDetails"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/activity_uploaded_details" />
+    <activity
+        android:id="@+id/nav1"
+        android:name="com.savita.navigate.StatusOfApplication"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/activity_status_of_application" />
+    <activity
+        android:id="@+id/nav2"
+        android:name="com.savita.navigate.UploadedDocument"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/activity_uploaded_document" />
+    <activity
+        android:id="@+id/nav3"
+        android:name="com.savita.navigate.UploadedDetails"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/activity_uploaded_document" />
+</navigation>

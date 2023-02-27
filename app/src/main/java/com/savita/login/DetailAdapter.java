@@ -1,10 +1,7 @@
 package com.savita.login;
 
-import static androidx.core.app.ActivityCompat.startActivityForResult;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,17 +17,10 @@ import androidx.annotation.NonNull;
 import androidx.documentfile.provider.DocumentFile;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.savita.firebase.FirebaseImage;
+import com.savita.simplefunction.CallBack;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.MyViewHolder> {
     private Context context;
@@ -78,15 +68,15 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.MyViewHold
            holder.button.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View view) {
-                  UploadImage uploadImage = new UploadImage();
+                  FirebaseImage firebaseImage = new FirebaseImage();
                   String filepath = holder.editText.getText().toString().trim();
                   Uri uri = Uri.parse(filepath);
                    DocumentFile sourceFile = DocumentFile.fromSingleUri(context, uri);
                    boolean bool = sourceFile.exists();
                    Toast.makeText(context, bool + " is here", Toast.LENGTH_LONG).show();
                    holder.progressBar.setVisibility(View.VISIBLE);
-                   uploadImage.uploadImage(uri,uid,require_detail,context);
-                   uploadImage.setCallBackForUploadImage(new CallBack() {
+                   firebaseImage.uploadImage(uri,uid,require_detail,context);
+                   firebaseImage.setCallBackForUploadImage(new CallBack() {
                        @Override
                        public String setStringData(String data) {
                            holder.progressBar.setVisibility(View.GONE);

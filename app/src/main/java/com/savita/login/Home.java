@@ -2,13 +2,21 @@ package com.savita.login;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -16,43 +24,29 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
+import com.savita.login.databinding.ActivityNavigationBinding;
 public class Home extends AppCompatActivity {
     private FirebaseAuth mAuth;
+    private TextView textView;
     private FirebaseUser user;
     private String userId;
     private DatabaseReference database;
     private Button exam,id;
+    private AppBarConfiguration mAppBarConfiguration;
+    private ActivityNavigationBinding binding;
+    private int noOfUsers = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+     //   setContentView(R.layout.home);
 
-        exam = (Button) findViewById(R.id.simpleButton1);
-        id = (Button) findViewById(R.id.simpleButton2);
-     //   mAuth = FirebaseAuth.getInstance();
-    //    user = mAuth.getCurrentUser();
-   //     database = FirebaseDatabase.getInstance().getReference("Users");
-      //  userId = user.getUid();
-        id.setOnClickListener(new View.OnClickListener() {
+   //     exam = (Button) findViewById(R.id.simpleButton1);
+  //      id = (Button) findViewById(R.id.simpleButton2);
+   /*     id.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               /* database.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        User userData = snapshot.getValue(User.class);
-                        if(userData!=null){
-                            Toast.makeText(Home.this,userData.getDisplayname().toString(),Toast.LENGTH_LONG).show();
-                        }
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(Home.this,"something went wrong ",Toast.LENGTH_LONG).show();
-
-                    }
-                });*/
             }
         });
 
@@ -63,17 +57,46 @@ public class Home extends AppCompatActivity {
                 Intent intent = new Intent(Home.this,ExamList.class);
                 startActivity(intent);
             }
-        });
+        });*/
+        binding = ActivityNavigationBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        setSupportActionBar(binding.appBarNavigationactivity.toolbar);
+        DrawerLayout drawer = binding.drawerLayout;
+        NavigationView navigationView = binding.navView;
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        if(noOfUsers>1){
+            mAppBarConfiguration = new AppBarConfiguration.Builder(
+                    R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,R.id.nav1,R.id.nav2)
+                    .setOpenableLayout(drawer)
+                    .build();
+        }else {
+            mAppBarConfiguration = new AppBarConfiguration.Builder(
+                    R.id.nav_home, R.id.nav1, R.id.nav_slideshow,R.id.nav1,R.id.nav2)
+                    .setOpenableLayout(drawer)
+                    .build();
+        }
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_navigationactivity);
+        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        NavigationUI.setupWithNavController(navigationView, navController);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-  //      FirebaseUser currentUser = mAuth.getCurrentUser();
-   //     if(currentUser == null){
-   //        Intent intent = new Intent(Home.this,MainActivity.class);
-  //         startActivity(intent);
-   //     }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.navigationactivity, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_navigationactivity);
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+                || super.onSupportNavigateUp();
     }
 }

@@ -6,36 +6,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.savita.simplefunction.ConstantVar;
-
-import java.util.ArrayList;
 import java.util.List;
 
-public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.MyViewHolder> {
+public class DocumentAdapter  extends RecyclerView.Adapter<DocumentAdapter.MyViewHolder> {
     private Context context;
     private List exams  ;
 
-    public ExamAdapter(Context context, List exams) {
+    public DocumentAdapter(Context context, List exams) {
         this.context = context;
         this.exams = exams;
     }
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public DocumentAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.exam, parent, false);
-        MyViewHolder  vh = new MyViewHolder(v); // pass the view to View Holder
+        DocumentAdapter.MyViewHolder vh = new DocumentAdapter.MyViewHolder(v); // pass the view to View Holder
         return vh;
 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull DocumentAdapter.MyViewHolder holder, int position) {
         String exam_name = (String) exams.get(position);
         holder.examName.setText(exam_name);
         // implement setOnClickListener event on item view.
@@ -44,7 +40,7 @@ public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.MyViewHolder> 
             public void onClick(View view) {
                 // display a toast with person name on item click
                 Intent intent = new Intent(context,RequireDetail.class);
-                intent.putExtra(ConstantVar.examName,exam_name);
+                intent.putExtra("examName",exam_name);
                 context.startActivity(intent);
             }
         });
@@ -67,3 +63,4 @@ public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.MyViewHolder> 
         }
     }
 }
+
